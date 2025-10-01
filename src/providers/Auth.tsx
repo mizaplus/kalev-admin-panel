@@ -1,10 +1,14 @@
+"use client";
 import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import Image from "next/image";
 import type React from "react";
 
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
-  <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg">
-    <img src="/logo.svg" alt="Kalev Logo" className="h-12 mb-4" />
+  <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
+    <Image src="/next.svg" alt="Kalev Logo" height={20} width={120} className="mb-4" />
     <p className="text-gray-600 text-sm">{title}</p>
+    <div className="h-[0.5px] w-full bg-gray-300 mt-5" />
   </div>
 );
 
@@ -51,9 +55,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             ),
           },
           VerifyUser: {
-            Header: () => (
-              <AuthHeader title="Verify your account to proceed" />
-            ),
+            Header: () => <AuthHeader title="Verify your account to proceed" />,
           },
           SelectMfaType: {
             Header: () => (
@@ -61,9 +63,23 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             ),
           },
         }}
-        className="shadow-sm rounded-lg overflow-hidden overflow-hidden border !bg-card"
+        className="shadow-sm rounded-lg overflow-hidden overflow-hidden border"
         hideSignUp={true}
         signUpAttributes={[]}
+        formFields={{
+          signIn: {
+            username: {
+              label: "Email",
+              placeholder: "Enter your email",
+              isRequired: true,
+            },
+            password: {
+              label: "Password",
+              placeholder: "Enter your password",
+              isRequired: true,
+            },
+          },
+        }}
       >
         {children}
       </Authenticator>

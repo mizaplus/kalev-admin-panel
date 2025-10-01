@@ -1,10 +1,12 @@
 {
   "auth": {
-    "user_pool_id": "eu-west-2_bbaQD0MlW",
+    "user_pool_id": "eu-west-2_E62X5bSrr",
     "aws_region": "eu-west-2",
-    "user_pool_client_id": "1lqe6gvstsueklh3pqbhlm8jk4",
-    "identity_pool_id": "eu-west-2:ffd84586-ecc8-45fb-978a-8c54fea564f5",
-    "mfa_methods": [],
+    "user_pool_client_id": "6eg6kr5kug4tf43560ti4b4svl",
+    "identity_pool_id": "eu-west-2:6ed6dbec-14d0-47f0-b46d-d59888c3256b",
+    "mfa_methods": [
+      "TOTP"
+    ],
     "standard_required_attributes": [
       "email"
     ],
@@ -14,8 +16,19 @@
     "user_verification_types": [
       "email"
     ],
-    "groups": [],
-    "mfa_configuration": "NONE",
+    "groups": [
+      {
+        "Developers": {
+          "precedence": 0
+        }
+      },
+      {
+        "Editors": {
+          "precedence": 1
+        }
+      }
+    ],
+    "mfa_configuration": "OPTIONAL",
     "password_policy": {
       "min_length": 8,
       "require_lowercase": true,

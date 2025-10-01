@@ -1,1 +1,1 @@
-export const isSandbox = !process.env.AWS_BRANCH
+export const isSandbox = !process.env.AWS_BRANCH;
