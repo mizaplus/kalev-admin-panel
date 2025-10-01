@@ -1,0 +1,596 @@
+{
+ "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.8.1\",\"stackType\":\"auth-Cognito\",\"metadata\":{}}",
+ "Resources": {
+  "kalevAdminAuthkalevAdminAuthUserPoolABD9AA06": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": true,
+      "RequireUppercase": true
+     }
+    },
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     }
+    ],
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UserAttributeUpdateSettings": {
+     "AttributesRequireVerificationBeforeUpdate": [
+      "email"
+     ]
+    },
+    "UserPoolName": "kalevAdminAuth",
+    "UserPoolTags": {
+     "amplify:deployment-type": "sandbox",
+     "amplify:friendly-name": "kalevAdminAuth",
+     "created-by": "amplify"
+    },
+    "UsernameAttributes": [
+     "email"
+    ],
+    "UsernameConfiguration": {
+     "CaseSensitive": false
+    },
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/kalevAdminAuth/kalevAdminAuthUserPool/Resource"
+   }
+  },
+  "kalevAdminAuthkalevAdminAuthUserPoolAppClientC052E7A4": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AllowedOAuthFlows": [
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "profile",
+     "phone",
+     "email",
+     "openid",
+     "aws.cognito.signin.user.admin"
+    ],
+    "CallbackURLs": [
+     "https://example.com"
+    ],
+    "ExplicitAuthFlows": [
+     "ALLOW_CUSTOM_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "PreventUserExistenceErrors": "ENABLED",
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "UserPoolId": {
+     "Ref": "kalevAdminAuthkalevAdminAuthUserPoolABD9AA06"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/kalevAdminAuth/kalevAdminAuthUserPoolAppClient/Resource"
+   }
+  },
+  "kalevAdminAuthkalevAdminAuthIdentityPoolF8C410BB": {
+   "Type": "AWS::Cognito::IdentityPool",
+   "Properties": {
+    "AllowUnauthenticatedIdentities": true,
+    "CognitoIdentityProviders": [
+     {
+      "ClientId": {
+       "Ref": "kalevAdminAuthkalevAdminAuthUserPoolAppClientC052E7A4"
+      },
+      "ProviderName": {
+       "Fn::Join": [
+        "",
+        [
+         "cognito-idp.",
+         {
+          "Ref": "AWS::Region"
+         },
+         ".amazonaws.com/",
+         {
+          "Ref": "kalevAdminAuthkalevAdminAuthUserPoolABD9AA06"
+         }
+        ]
+       ]
+      }
+     }
+    ],
+    "IdentityPoolTags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "kalevAdminAuth"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ],
+    "SupportedLoginProviders": {}
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/kalevAdminAuth/kalevAdminAuthIdentityPool"
+   }
+  },
+  "kalevAdminAuthkalevAdminAuthauthenticatedUserRoleD070C42D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRoleWithWebIdentity",
+       "Condition": {
+        "StringEquals": {
+         "cognito-identity.amazonaws.com:aud": {
+          "Ref": "kalevAdminAuthkalevAdminAuthIdentityPoolF8C410BB"
+         }
+        },
+        "ForAnyValue:StringLike": {
+         "cognito-identity.amazonaws.com:amr": "authenticated"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Federated": "cognito-identity.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "kalevAdminAuth"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/kalevAdminAuth/kalevAdminAuthauthenticatedUserRole/Resource"
+   }
+  },
+  "kalevAdminAuthkalevAdminAuthunauthenticatedUserRole94A81D88": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRoleWithWebIdentity",
+       "Condition": {
+        "StringEquals": {
+         "cognito-identity.amazonaws.com:aud": {
+          "Ref": "kalevAdminAuthkalevAdminAuthIdentityPoolF8C410BB"
+         }
+        },
+        "ForAnyValue:StringLike": {
+         "cognito-identity.amazonaws.com:amr": "unauthenticated"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Federated": "cognito-identity.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "kalevAdminAuth"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/kalevAdminAuth/kalevAdminAuthunauthenticatedUserRole/Resource"
+   }
+  },
+  "kalevAdminAuthkalevAdminAuthIdentityPoolRoleAttachment6BEAE762": {
+   "Type": "AWS::Cognito::IdentityPoolRoleAttachment",
+   "Properties": {
+    "IdentityPoolId": {
+     "Ref": "kalevAdminAuthkalevAdminAuthIdentityPoolF8C410BB"
+    },
+    "RoleMappings": {
+     "UserPoolWebClientRoleMapping": {
+      "AmbiguousRoleResolution": "AuthenticatedRole",
+      "IdentityProvider": {
+       "Fn::Join": [
+        "",
+        [
+         "cognito-idp.",
+         {
+          "Ref": "AWS::Region"
+         },
+         ".amazonaws.com/",
+         {
+          "Ref": "kalevAdminAuthkalevAdminAuthUserPoolABD9AA06"
+         },
+         ":",
+         {
+          "Ref": "kalevAdminAuthkalevAdminAuthUserPoolAppClientC052E7A4"
+         }
+        ]
+       ]
+      },
+      "Type": "Token"
+     }
+    },
+    "Roles": {
+     "unauthenticated": {
+      "Fn::GetAtt": [
+       "kalevAdminAuthkalevAdminAuthunauthenticatedUserRole94A81D88",
+       "Arn"
+      ]
+     },
+     "authenticated": {
+      "Fn::GetAtt": [
+       "kalevAdminAuthkalevAdminAuthauthenticatedUserRoleD070C42D",
+       "Arn"
+      ]
+     }
+    }
+   },
+   "DependsOn": [
+    "kalevAdminAuthkalevAdminAuthIdentityPoolF8C410BB",
+    "kalevAdminAuthkalevAdminAuthUserPoolAppClientC052E7A4"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/kalevAdminAuth/kalevAdminAuthIdentityPoolRoleAttachment"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02LwQ6CMBBEv4V7WaEnr4aTF2Mwnk1tV10s24QuEtP03w0xKKeZeTOjQddbqAozxdK6Z+npCumAUdCdxNinMlO8JBvuTBIgnSMOxxC8am7884tpPCHLuvqTvUMWkvdyXuc2eNyJGPvokSUrMj2kGc7DWXNWLcYwDhaz4uAQurh5aQ11DVXRRaJyGFmoR2i/+gHM0H4S1wAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "amplify-kalevadminpanel-andrew-sandbox-4cad75c2f8/auth/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Outputs": {
+  "amplifykalevadminpanelandrewsandbox4cad75c2f8authkalevAdminAuthkalevAdminAuthUserPool566812CDRef": {
+   "Value": {
+    "Ref": "kalevAdminAuthkalevAdminAuthUserPoolABD9AA06"
+   }
+  },
+  "amplifykalevadminpanelandrewsandbox4cad75c2f8authkalevAdminAuthkalevAdminAuthUserPoolAppClient58707CF2Ref": {
+   "Value": {
+    "Ref": "kalevAdminAuthkalevAdminAuthUserPoolAppClientC052E7A4"
+   }
+  },
+  "amplifykalevadminpanelandrewsandbox4cad75c2f8authkalevAdminAuthkalevAdminAuthIdentityPool9133BD0DRef": {
+   "Value": {
+    "Ref": "kalevAdminAuthkalevAdminAuthIdentityPoolF8C410BB"
+   }
+  }
+ }
+}
