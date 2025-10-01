@@ -61,7 +61,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             ),
           },
         }}
-        className="shadow-sm rounded-lg overflow-hidden bg-white overflow-hidden border"
+        className="shadow-sm rounded-lg overflow-hidden overflow-hidden border !bg-card"
         hideSignUp={true}
         signUpAttributes={[]}
       >

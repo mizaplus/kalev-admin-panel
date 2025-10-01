@@ -2,6 +2,8 @@ import { Route, BrowserRouter as Router, Routes, Link } from "react-router-dom";
 import { Authenticator } from '@aws-amplify/ui-react';
 import "@aws-amplify/ui-react/styles.css";
 
+console.log({ env: process.env.NODE_ENV })
+
 // Simple dummy page component
 function DummyPage() {
   return (
