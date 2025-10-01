@@ -1,10 +1,13 @@
 import { defineAuth } from '@aws-amplify/backend';
+import { isSandbox } from '../utils';
 
-const isSandbox = !process.env.AWS_BRANCH
-
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
 export const auth = defineAuth({
-  name: isSandbox ? 'Kalev-dev' : 'Kalev-prod',
+  name: isSandbox ? 'kalev-auth-dev' : 'kalev-auth-prod',
   loginWith: {
     email: true,
-  }
+  },
 });
