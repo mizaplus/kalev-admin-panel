@@ -4,6 +4,11 @@ import "@aws-amplify/ui-react/styles.css";
 import Image from "next/image";
 import type React from "react";
 
+import { Amplify } from "aws-amplify";
+import config from "../../amplify_outputs.json";
+
+Amplify.configure(config);
+
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
     <Image src="/next.svg" alt="Kalev Logo" height={20} width={120} className="mb-4" />
@@ -16,7 +21,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <div className="h-screen w-screen flex items-center justify-center p-4 bg-background">
+    <div className="min-h-screen w-screen flex items-center justify-center bg-background">
       <Authenticator
         components={{
           Footer: () => (
