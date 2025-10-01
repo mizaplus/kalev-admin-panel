@@ -197,6 +197,8 @@ button:focus-visible {
 .amplify-button--primary {
   background-color: var(--primary) !important;
   color: var(--primary-foreground) !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
 }
 
 .amplify-button--link {
