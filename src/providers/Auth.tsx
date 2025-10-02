@@ -7,7 +7,17 @@ import type React from "react";
 import { Amplify } from "aws-amplify";
 import config from "../../amplify_outputs.json";
 
-Amplify.configure(config);
+Amplify.configure({
+  ...config,
+  API: {
+    REST: {
+      main: {
+        endpoint: "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod",
+        region: "eu-west-2",
+      },
+    },
+  },
+});
 
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
