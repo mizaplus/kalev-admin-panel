@@ -24,8 +24,7 @@ export default function RootLayout({
         className={`${openSans.variable} antialiased`}
       >
         <AuthProvider>
-
-        {children}
+         {children}
         </AuthProvider>
       </body>
     </html>

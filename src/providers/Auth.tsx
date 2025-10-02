@@ -11,7 +11,7 @@ Amplify.configure(config);
 
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
-    <Image src="/next.svg" alt="Kalev Logo" height={20} width={120} className="mb-4" />
+    <Image src="/logo.png" alt="Kalev Logo" height={60} width={180} />
     <p className="text-gray-600 text-sm">{title}</p>
     <div className="h-[0.5px] w-full bg-gray-300 mt-5" />
   </div>
