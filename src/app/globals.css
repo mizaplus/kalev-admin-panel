@@ -132,6 +132,10 @@
   border-style: none !important;
 }
 
+[data-amplify-authenticator] [data-amplify-container] {
+  background-color: var(--card) !important;
+}
+
 .amplify-button--primary {
   background-color: var(--primary) !important;
   color: var(--primary-foreground) !important;
@@ -157,4 +161,10 @@
 .amplify-input:focus {
   border-color: var(--primary) !important;
   box-shadow: 0 0 0 1px var(--primary) !important;
+}
+
+.amplify-label {
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  color: var(--foreground) !important;
 }

@@ -25,7 +25,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       <Authenticator
         components={{
           Footer: () => (
-            <div className="p-4 text-center text-xs text-gray-500 bg-gray-50 rounded-b-lg border-t">
+            <div className="p-4 text-center text-xs text-gray-500 bg-mutedrounded-b-lg border-t">
               © 2025 Kalev. All rights reserved.
             </div>
           ),
@@ -68,7 +68,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             ),
           },
         }}
-        className="shadow-sm rounded-lg overflow-hidden overflow-hidden border"
+        className="shadow-sm rounded-lg overflow-hidden delay-500 border"
         hideSignUp={true}
         signUpAttributes={[]}
         formFields={{
