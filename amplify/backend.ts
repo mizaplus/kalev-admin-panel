@@ -7,3 +7,15 @@ import { auth } from './auth/resource';
 const backend = defineBackend({
   auth,
 });
+
+backend.addOutput({
+  storage: {
+    aws_region: "eu-west-2",
+    bucket_name: "kalev-media-files",
+  },
+  custom: {
+    api_id: "frmw9v5tz3",
+    api_endpoint: "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod",
+    api_name: "main",
+  },
+})

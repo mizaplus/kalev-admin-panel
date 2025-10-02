@@ -11,13 +11,16 @@ Amplify.configure({
   ...config,
   API: {
     REST: {
-      main: {
-        endpoint: "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod",
-        region: "eu-west-2",
+      [config.custom.api_name]: {
+        endpoint: config.custom.api_endpoint,
+        region: config.auth.aws_region,
       },
     },
   },
 });
+
+const appConfig = Amplify.getConfig();
+console.log("Amplify Config:", appConfig);
 
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
