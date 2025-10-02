@@ -5,6 +5,7 @@ import AuthProvider from "@/providers/Auth";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { Toaster } from "sonner";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${openSans.variable} antialiased`}>
         <AuthProvider>
+          <Toaster />
           <SidebarProvider
             style={
               {

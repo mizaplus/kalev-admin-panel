@@ -1,10 +1,86 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Home, Info, CheckCircle, Grid3X3, Edit3, Eye, ChevronRight } from "lucide-react"
+import { Home, Info, CheckCircle, Grid3X3, Edit3, Eye, ChevronRight, Loader2 } from "lucide-react"
+import { HeroSectionEditor } from "../useCases/homepage/HeroSectionEditor"
+import { HomepageData } from "@/features/domain/homepage"
 
 export function HomepageManagementPage() {
+  const [homepageData, setHomepageData] = useState<HomepageData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchHomepageData()
+  }, [])
+
+  const fetchHomepageData = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const response = await fetch('https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod/page/home')
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      setHomepageData(data)
+      
+    } catch (err) {
+      console.error('Error fetching homepage data:', err)
+      setError(err instanceof Error ? err.message : 'Failed to fetch homepage data')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleRefreshData = () => {
+    fetchHomepageData()
+  }
+
+  if (loading) {
+    return (
+      <div className="w-full px-6 py-8">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+          <span className="ml-2 text-gray-600">Loading homepage data...</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="w-full px-6 py-8">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <h3 className="text-red-800 font-medium mb-2">Error Loading Data</h3>
+          <p className="text-red-600 text-sm">{error}</p>
+          <Button 
+            onClick={() => window.location.reload()} 
+            variant="outline" 
+            className="mt-4"
+          >
+            Retry
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (!homepageData) {
+    return (
+      <div className="w-full px-6 py-8">
+        <div className="text-center py-12">
+          <p className="text-gray-600">No homepage data available</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full px-6 py-8">
       {/* Header */}
@@ -34,14 +110,20 @@ export function HomepageManagementPage() {
                 </p>
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              className="gap-2 bg-white hover:bg-gray-50 border-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            <HeroSectionEditor
+              initialData={homepageData.hero}
+              sectionKey={{ PK: "HOME", SK: "HERO" }}
+              onRefresh={handleRefreshData}
             >
-              <Edit3 className="h-4 w-4" />
-              Edit Section
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+              <Button 
+                variant="outline" 
+                className="gap-2 bg-white hover:bg-gray-50 border-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              >
+                <Edit3 className="h-4 w-4" />
+                Edit Section
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </HeroSectionEditor>
           </div>
         </div>
 
