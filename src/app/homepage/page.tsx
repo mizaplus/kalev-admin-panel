@@ -1,5 +1,5 @@
-import { HomepageManagementPage } from "@/features/ui/HomepageManagementPage"
+import HomepageManagement from "@/features/ui/HomepageManagement";
 
 export default function Homepage() {
-  return <HomepageManagementPage />
+  return <HomepageManagement />
 }
