@@ -20,7 +20,7 @@ Amplify.configure({
 });
 
 const appConfig = Amplify.getConfig();
-console.log("Amplify Config:", appConfig);
+console.log("Amplify Config:", JSON.stringify(appConfig, null, 2));
 
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
