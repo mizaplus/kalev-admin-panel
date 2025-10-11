@@ -1,7 +1,6 @@
 "use client";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import Image from "next/image";
 import type React from "react";
 
 import { Amplify } from "aws-amplify";
@@ -9,14 +8,14 @@ import config from "../../amplify_outputs.json";
 
 Amplify.configure({
   ...config,
-  API: {
-    REST: {
-      [config.custom.api_name]: {
-        endpoint: config.custom.api_endpoint,
-        region: config.auth.aws_region,
-      },
-    },
-  },
+  // API: {
+  //   REST: {
+  //     [config.custom.api_name]: {
+  //       endpoint: config.custom.api_endpoint,
+  //       region: config.auth.aws_region,
+  //     },
+  //   },
+  // },
 });
 
 const appConfig = Amplify.getConfig();
@@ -24,7 +23,7 @@ console.log("Amplify Config:", JSON.stringify(appConfig, null, 2));
 
 const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center bg-white p-6 rounded-t-lg pb-0">
-    <Image src="/logo.png" alt="Kalev Logo" height={60} width={180} />
+    <img src="/logo.png" alt="Kalev Logo" height={60} width={180} />
     <p className="text-gray-600 text-sm">{title}</p>
     <div className="h-[0.5px] w-full bg-gray-300 mt-5" />
   </div>

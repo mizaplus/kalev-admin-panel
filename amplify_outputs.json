@@ -1,12 +1,10 @@
 {
   "auth": {
-    "user_pool_id": "eu-west-2_E62X5bSrr",
+    "user_pool_id": "eu-west-2_XX4CMJLmm",
     "aws_region": "eu-west-2",
-    "user_pool_client_id": "6eg6kr5kug4tf43560ti4b4svl",
-    "identity_pool_id": "eu-west-2:6ed6dbec-14d0-47f0-b46d-d59888c3256b",
-    "mfa_methods": [
-      "TOTP"
-    ],
+    "user_pool_client_id": "3v0scntc03s9j65np2g6gkfa5q",
+    "identity_pool_id": "eu-west-2:d76ad0f8-7949-438b-a501-f9cd16a07019",
+    "mfa_methods": [],
     "standard_required_attributes": [
       "email"
     ],
@@ -16,19 +14,8 @@
     "user_verification_types": [
       "email"
     ],
-    "groups": [
-      {
-        "Developers": {
-          "precedence": 0
-        }
-      },
-      {
-        "Editors": {
-          "precedence": 1
-        }
-      }
-    ],
-    "mfa_configuration": "OPTIONAL",
+    "groups": [],
+    "mfa_configuration": "NONE",
     "password_policy": {
       "min_length": 8,
       "require_lowercase": true,
@@ -38,14 +25,5 @@
     },
     "unauthenticated_identities_enabled": true
   },
-  "version": "1.4",
-  "storage": {
-    "aws_region": "eu-west-2",
-    "bucket_name": "amplify-dinzfcsr4govb-mai-kalevmediabucket951bfffc-3srotef0oms8"
-  },
-  "custom": {
-    "api_id": "frmw9v5tz3",
-    "api_endpoint": "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod",
-    "api_name": "main"
-  }
+  "version": "1.4"
 }
