@@ -11,6 +11,8 @@ const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   </div>
 );
 
+const isLocal = window.location.hostname === "localhost";
+
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -63,7 +65,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           },
         }}
         className="shadow-sm rounded-lg overflow-hidden delay-500 border"
-        hideSignUp={true}
+        hideSignUp={!isLocal}
         signUpAttributes={[]}
         formFields={{
           signIn: {
