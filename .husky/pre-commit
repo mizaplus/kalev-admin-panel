@@ -1,1 +1,4 @@
-pnpm test
+# .husky/pre-commit
+prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
+git update-index --again
+eslint $(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.js$|\.jsx$|\.ts$|\.tsx$' | sed 's| |\\ |g') --fix
