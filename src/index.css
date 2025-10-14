@@ -184,3 +184,51 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+/** Amplify UI Overrides **/
+[data-amplify-authenticator] [data-amplify-router] {
+  background-color: var(
+    --amplify-components-authenticator-router-background-color
+  );
+  box-shadow: none !important;
+  border-color: none !important;
+  border-width: none !important;
+  border-style: none !important;
+}
+
+[data-amplify-authenticator] [data-amplify-container] {
+  background-color: var(--card) !important;
+}
+
+.amplify-button--primary {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+}
+
+.amplify-button--link {
+  color: var(--primary) !important;
+  font-weight: 500 !important;
+}
+
+.amplify-input {
+  font-size: 0.9rem !important;
+  transition: all 0.5s !important;
+}
+
+.amplify-input::placeholder {
+  color: var(--muted-foreground) !important;
+  opacity: 1 !important;
+}
+
+.amplify-input:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 1px var(--primary) !important;
+}
+
+.amplify-label {
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  color: var(--foreground) !important;
+}
