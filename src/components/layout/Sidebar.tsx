@@ -1,4 +1,5 @@
 import type { SVGProps } from "react";
+import { NavLink as RouterNavLink } from "react-router-dom";
 
 import {
   AppWindow,
@@ -17,6 +18,7 @@ type NavItem = {
   label: string;
   icon?: (props: SVGProps<SVGSVGElement>) => React.ReactNode;
   badge?: string;
+  to: string;
 };
 
 type NavSection = {
@@ -32,25 +34,26 @@ const sections: NavSection[] = [
       {
         label: "Dashboard",
         icon: LayoutDashboard,
+        to: "/",
       },
     ],
   },
   {
     label: "Page Management",
     items: [
-      { label: "Home", icon: AppWindow },
-      { label: "About Us", icon: Users },
-      { label: "Our Programs", icon: Sparkles },
-      { label: "Get Involved", icon: MessageSquare },
-      { label: "Donate", icon: ShoppingBag },
-      { label: "Contact Us", icon: Map },
+      { label: "Home", icon: AppWindow, to: "/home" },
+      { label: "About Us", icon: Users, to: "/about" },
+      { label: "Our Programs", icon: Sparkles, to: "/programs" },
+      { label: "Get Involved", icon: MessageSquare, to: "/get-involved" },
+      { label: "Donate", icon: ShoppingBag, to: "/donate" },
+      { label: "Contact Us", icon: Map, to: "/contact" },
     ],
   },
   {
     label: "Admin",
     items: [
-      { label: "Files", icon: FileText },
-      { label: "Back Ups", icon: Plug },
+      { label: "Files", icon: FileText, to: "/files" },
+      { label: "Back Ups", icon: Plug, to: "/backups" },
     ],
   },
 ];
@@ -59,7 +62,7 @@ export function Sidebar() {
   return (
     <aside className="flex h-full w-72 shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
       <div className="flex items-center gap-3 px-6 py-6">
-        <div className="grid size-10 place-content-center rounded-full bg-emerald-100 text-emerald-600 text-sm font-semibold">
+        <div className="grid size-10 place-content-center rounded-full bg-primary/10 text-primary text-sm font-semibold">
           D
         </div>
         <div className="space-y-0.5">
@@ -98,35 +101,32 @@ function Section({ section }: { section: NavSection }) {
 
 function NavLink({ item }: { item: NavItem }) {
   const Icon = item.icon;
-  const isActive = item.label === "Dashboard";
 
   return (
-    <button
-      type="button"
-      className={cn(
-        "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-[0.7rem] font-medium transition",
-        "hover:bg-emerald-50 hover:text-emerald-600",
-        isActive
-          ? "bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-200"
-          : "text-muted-foreground",
-      )}
+    <RouterNavLink
+      to={item.to}
+      end={item.to === "/"}
+      className={({ isActive }) =>
+        cn(
+          "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-[0.7rem] font-medium transition",
+          "hover:bg-primary/10 hover:text-primary",
+          isActive
+            ? "bg-primary/10 text-primary ring-1 ring-primary/30"
+            : "text-muted-foreground",
+        )
+      }
     >
       {Icon ? (
-        <Icon
-          className={cn(
-            "h-3.5 w-3.5",
-            isActive ? "text-emerald-600" : "text-muted-foreground",
-          )}
-        />
+        <Icon className={cn("h-3.5 w-3.5", "text-current")} />
       ) : (
-        <span className="size-2.5 rounded-full bg-emerald-500" />
+        <span className="size-2.5 rounded-full bg-primary" />
       )}
       <span className="text-sm">{item.label}</span>
       {item.badge ? (
-        <span className="ml-auto rounded-full bg-emerald-100 px-2 py-0.5 text-[0.6rem] font-semibold text-emerald-600">
+        <span className="ml-auto rounded-full bg-primary/10 px-2 py-0.5 text-[0.6rem] font-semibold text-primary">
           {item.badge}
         </span>
       ) : null}
-    </button>
+    </RouterNavLink>
   );
 }

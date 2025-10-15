@@ -21,7 +21,7 @@ export function Topbar() {
           type="button"
           variant="ghost"
           size="icon"
-          className="size-9 rounded-full text-muted-foreground hover:bg-emerald-50 hover:text-emerald-600"
+          className="size-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
         >
           <Search className="h-4 w-4" />
         </Button>
@@ -58,7 +58,7 @@ export function Topbar() {
             type="button"
             variant="ghost"
             size="icon"
-            className="size-7 rounded-full text-muted-foreground hover:bg-emerald-50 hover:text-emerald-600"
+            className="size-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
           >
             <SunMedium className="h-3.5 w-3.5" />
             <span className="sr-only">Toggle theme</span>
@@ -83,12 +83,12 @@ function QuickAction({
       type="button"
       variant="ghost"
       size="icon"
-      className="relative size-9 rounded-xl border border-muted/70 bg-white text-muted-foreground shadow-sm transition hover:border-emerald-200 hover:text-emerald-600"
+      className="relative size-9 rounded-xl border border-muted/70 bg-white text-muted-foreground shadow-sm transition hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
     >
       <Icon className="h-3.5 w-3.5" />
       <span className="sr-only">{label}</span>
       {badge ? (
-        <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-semibold text-white">
+        <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-primary text-[9px] font-semibold text-white">
           {badge}
         </span>
       ) : null}

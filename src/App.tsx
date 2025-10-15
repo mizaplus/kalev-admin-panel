@@ -1,20 +1,39 @@
-import { Sidebar } from "@/components/layout/Sidebar";
-import { Topbar } from "@/components/layout/Topbar";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { AppLayout } from "@/components/layout/AppLayout";
+import BackupsPage from "@/pages/BackupsPage";
+import ContactPage from "@/pages/ContactPage";
+import DashboardPage from "@/pages/DashboardPage";
+import DonatePage from "@/pages/DonatePage";
+import FilesPage from "@/pages/FilesPage";
+import GetInvolvedPage from "@/pages/GetInvolvedPage";
+import AboutPage from "@/pages/AboutPage";
+import HomePage from "@/pages/HomePage";
+import NotFoundPage from "@/pages/NotFoundPage";
+import ProgramsPage from "@/pages/ProgramsPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      { index: true, element: <DashboardPage /> },
+      { path: "home", element: <HomePage /> },
+      { path: "about", element: <AboutPage /> },
+      { path: "programs", element: <ProgramsPage /> },
+      { path: "get-involved", element: <GetInvolvedPage /> },
+      { path: "donate", element: <DonatePage /> },
+      { path: "contact", element: <ContactPage /> },
+      { path: "files", element: <FilesPage /> },
+      { path: "backups", element: <BackupsPage /> },
+      { path: "*", element: <NotFoundPage /> },
+    ],
+  },
+  { path: "*", element: <NotFoundPage /> },
+]);
 
 function App() {
-  return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-900">
-      <Sidebar />
-      <div className="flex h-full flex-1 flex-col overflow-hidden">
-        <Topbar />
-        <main className="flex-1 overflow-y-auto bg-[#f6f8fb] p-8">
-          <div className="grid min-h-[60vh] place-content-center rounded-3xl border border-dashed border-muted-foreground/30 bg-white/80 text-xs text-muted-foreground">
-            Content placeholder
-          </div>
-        </main>
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
