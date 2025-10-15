@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import "./assets/icofont/icofont.min.css";
 import App from "./App.tsx";
 import config from "../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
@@ -13,5 +14,5 @@ createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <App />
     </AuthProvider>
-  </StrictMode>
+  </StrictMode>,
 );

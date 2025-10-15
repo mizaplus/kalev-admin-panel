@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
+import ChooseUs from "./forms/ChooseUs";
 
 const iconProps = {
   size: 36,
@@ -49,6 +50,7 @@ const sectionData: SectionItem[] = [
     description:
       "Highlight key reasons or values that set you apart from others.",
     icon: <FaRegThumbsUp {...iconProps} />,
+    action: () => <ChooseUs />,
   },
 ];
 
