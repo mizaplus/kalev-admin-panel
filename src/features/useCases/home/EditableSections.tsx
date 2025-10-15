@@ -3,6 +3,7 @@ import { useHomepageContext } from "@/features/domain/context/homepage-context";
 
 // UI Components
 import { Button } from "@/components/ui/button";
+import Hero from "./forms/Hero";
 import {
   Card,
   CardTitle,
@@ -39,9 +40,9 @@ const sectionData = [
   },
 ];
 
-const EditButton = () => (
+const EditButton = ({ children }: { children?: React.ReactNode }) => (
   <Button variant="outline" className="!font-medium mt-3 !text-sm" size="sm">
-    Edit Section
+    {children || "Edit Section"}
   </Button>
 );
 
@@ -84,7 +85,7 @@ const EditableSections = () => {
   return (
     <>
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
-        {sectionData.map(({ title, description, icon }) => (
+        {sectionData.map(({ title, description, icon }, idx) => (
           <Card key={title} className="items-center text-center py-10">
             <CardContent className="flex flex-col items-center justify-between">
               <div className="my-3 size-16 border border-primary/50 flex justify-center items-center rounded-lg">
@@ -94,7 +95,7 @@ const EditableSections = () => {
               <CardDescription className="max-w-xs">
                 {description}
               </CardDescription>
-              <EditButton />
+              {idx === 0 ? <Hero /> : <EditButton />}
             </CardContent>
           </Card>
         ))}
