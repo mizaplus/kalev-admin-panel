@@ -4,6 +4,8 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
+import { useHomepageContext } from "@/features/domain/context/homepage-context";
 import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 
 const iconProps = {
@@ -34,6 +36,16 @@ const sections = [
 ];
 
 const EditableSections = () => {
+  const { loading } = useHomepageContext();
+
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center h-[500px]">
+        <Spinner className="size-8" />
+        <p className="ml-4 text-muted-foreground text-sm">Loading...</p>
+      </div>
+    );
+
   return (
     <>
       <div className="mt-10 flex gap-5">
