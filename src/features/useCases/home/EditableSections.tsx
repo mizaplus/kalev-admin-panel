@@ -10,7 +10,6 @@ import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 
 const iconProps = {
   size: 36,
-  color: "#2563eb",
   style: { flexShrink: 0 },
 };
 
@@ -19,19 +18,19 @@ const sections = [
     title: "Welcome Section",
     description:
       "Introduce your site with a warm welcome and a brief overview.",
-    icon: <FaRegSmile {...iconProps} />,
+    icon: <FaRegSmile {...iconProps} className="text-primary" />,
   },
   {
     title: "About Info",
     description:
       "Share your mission, vision, and what makes your organization unique.",
-    icon: <FaInfoCircle {...iconProps} />,
+    icon: <FaInfoCircle {...iconProps} className="text-primary" />,
   },
   {
     title: "Choose Us",
     description:
       "Highlight key reasons or values that set you apart from others.",
-    icon: <FaRegThumbsUp {...iconProps} />,
+    icon: <FaRegThumbsUp {...iconProps} className="text-primary" />,
   },
 ];
 
@@ -61,7 +60,7 @@ const EditableSections = () => {
       </div>
       <div className="mt-8 w-full p-6 bg-muted/70 rounded-lg border border-muted-foreground/10 shadow-sm">
         <h2 className="text-base font-bold mb-2 text-foreground flex items-center gap-2">
-          <span className="inline-block bg-blue-100 text-blue-700 rounded px-2 py-0.5 text-xs font-semibold">
+          <span className="inline-block bg-blue-100 text-primary rounded px-2 py-0.5 text-xs font-semibold">
             Tips
           </span>
           How to Edit Content
