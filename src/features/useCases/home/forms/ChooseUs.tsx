@@ -190,7 +190,7 @@ const ChooseUs = () => {
           Edit Choose Us Section
         </Button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="!h-screen">
+      <SheetContent side="bottom" className="!h-screen overflow-y-auto">
         <div className="max-w-7xl w-full mx-auto">
           <SheetHeader>
             <SheetTitle>Edit Why Choose Us</SheetTitle>
