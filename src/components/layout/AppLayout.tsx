@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
+import { Toaster } from "@/components/ui/sonner";
 
 export function AppLayout() {
   return (
@@ -13,6 +14,7 @@ export function AppLayout() {
           <Outlet />
         </main>
       </div>
+      <Toaster position="top-right" richColors closeButton />
     </div>
   );
 }

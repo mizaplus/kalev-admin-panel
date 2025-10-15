@@ -8,7 +8,7 @@ import DonatePage from "@/pages/DonatePage";
 import FilesPage from "@/pages/FilesPage";
 import GetInvolvedPage from "@/pages/GetInvolvedPage";
 import AboutPage from "@/pages/AboutPage";
-import HomePage from "@/pages/HomePage";
+import HomePage from "@/features/ui/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ProgramsPage from "@/pages/ProgramsPage";
 

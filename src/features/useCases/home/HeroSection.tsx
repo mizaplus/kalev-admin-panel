@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { type HomePageHero } from "@/lib/api/homepage";
+import { type HomePageHeroDetails } from "@/lib/api/homepage";
 import { resolveMediaUrl } from "@/lib/media";
 
 type HeroSectionProps = {
-  hero: HomePageHero;
+  hero: HomePageHeroDetails;
 };
 
 const navItems = [
@@ -20,8 +20,8 @@ export function HeroSection({ hero }: HeroSectionProps) {
   const imageSrc = resolveMediaUrl(hero.image);
 
   return (
-    <Card className="overflow-hidden border-none p-0 shadow-none gap-0 rounded-sm overflow-hidden">
-      <header className="flex items-center justify-between border border-b-0  bg-white px-3 py-4 md:px-10">
+    <Card className="flex flex-col gap-0 overflow-hidden rounded-sm border border-muted bg-white p-0 shadow-none">
+      <header className="flex items-center justify-between border-b border-muted/50 px-4 py-4 md:px-10">
         <div className="flex items-center gap-3">
           <img
             src="/logo.png"
@@ -69,7 +69,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
           <h1 className="text-xl font-semibold tracking-tight sm:text-3xl">
             {hero.title}
           </h1>
-          <p className="text-sm text-white/85 max-w-sm">{hero.tagline}</p>
+          <p className="max-w-sm text-sm text-white/85">{hero.tagline}</p>
           <Button className="rounded-full bg-[#FF6A1A] px-8 text-xs font-semibold text-white shadow-lg shadow-[#FF6A1A]/30 transition hover:bg-[#ff792f]">
             Learn More
           </Button>
