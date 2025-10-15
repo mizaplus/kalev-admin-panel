@@ -1,9 +1,12 @@
+import type { ReactNode } from "react";
+
 // Hooks
 import { useHomepageContext } from "@/features/domain/context/homepage-context";
 
 // UI Components
 import { Button } from "@/components/ui/button";
 import Hero from "./forms/Hero";
+import About from "./forms/About";
 import {
   Card,
   CardTitle,
@@ -19,18 +22,27 @@ const iconProps = {
   className: "text-primary",
 };
 
-const sectionData = [
+type SectionItem = {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  action?: () => ReactNode;
+};
+
+const sectionData: SectionItem[] = [
   {
     title: "Welcome Section",
     description:
       "Introduce your site with a warm welcome and a brief overview.",
     icon: <FaRegSmile {...iconProps} />,
+    action: () => <Hero />,
   },
   {
     title: "About Info",
     description:
       "Share your mission, vision, and what makes your organization unique.",
     icon: <FaInfoCircle {...iconProps} />,
+    action: () => <About />,
   },
   {
     title: "Choose Us",
@@ -40,7 +52,7 @@ const sectionData = [
   },
 ];
 
-const EditButton = ({ children }: { children?: React.ReactNode }) => (
+const EditButton = ({ children }: { children?: ReactNode }) => (
   <Button variant="outline" className="!font-medium mt-3 !text-sm" size="sm">
     {children || "Edit Section"}
   </Button>
@@ -85,7 +97,7 @@ const EditableSections = () => {
   return (
     <>
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
-        {sectionData.map(({ title, description, icon }, idx) => (
+        {sectionData.map(({ title, description, icon, action }) => (
           <Card key={title} className="items-center text-center py-10">
             <CardContent className="flex flex-col items-center justify-between">
               <div className="my-3 size-16 border border-primary/50 flex justify-center items-center rounded-lg">
@@ -95,7 +107,7 @@ const EditableSections = () => {
               <CardDescription className="max-w-xs">
                 {description}
               </CardDescription>
-              {idx === 0 ? <Hero /> : <EditButton />}
+              {action ? action() : <EditButton />}
             </CardContent>
           </Card>
         ))}
