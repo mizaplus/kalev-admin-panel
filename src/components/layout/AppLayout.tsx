@@ -11,7 +11,9 @@ export function AppLayout() {
       <div className="flex h-full flex-1 flex-col overflow-hidden">
         <Topbar />
         <main className="flex-1 overflow-y-auto bg-background p-5">
-          <Outlet />
+          <div className="w-full max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
       <Toaster position="top-right" richColors closeButton />

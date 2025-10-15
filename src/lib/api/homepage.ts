@@ -168,6 +168,48 @@ export async function updateHomePageHero(
   }
 }
 
+export async function updateHomePageAbout(
+  key: ContentKey,
+  details: HomePageAboutDetails,
+): Promise<void> {
+  const response = await putContentItem({ key, details });
+
+  if (!response.ok) {
+    const message = await extractErrorMessage(response);
+    throw new Error(
+      message ?? `Failed to update about section (${response.status})`,
+    );
+  }
+}
+
+export async function updateHomePageChooseUs(
+  key: ContentKey,
+  details: HomePageChooseUsDetails,
+): Promise<void> {
+  const response = await putContentItem({ key, details });
+
+  if (!response.ok) {
+    const message = await extractErrorMessage(response);
+    throw new Error(
+      message ?? `Failed to update reasons section (${response.status})`,
+    );
+  }
+}
+
+export async function updateHomePagePrograms(
+  key: ContentKey,
+  details: HomePageProgramsDetails,
+): Promise<void> {
+  const response = await putContentItem({ key, details });
+
+  if (!response.ok) {
+    const message = await extractErrorMessage(response);
+    throw new Error(
+      message ?? `Failed to update programs (${response.status})`,
+    );
+  }
+}
+
 async function extractErrorMessage(response: Response): Promise<string | null> {
   try {
     const data = await response.json();
