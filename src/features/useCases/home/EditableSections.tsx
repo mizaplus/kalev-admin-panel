@@ -1,3 +1,8 @@
+// Hooks
+import { useHomepageContext } from "@/features/domain/context/homepage-context";
+
+// UI Components
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardTitle,
@@ -5,33 +10,64 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { useHomepageContext } from "@/features/domain/context/homepage-context";
 import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 
 const iconProps = {
   size: 36,
   style: { flexShrink: 0 },
+  className: "text-primary",
 };
 
-const sections = [
+const sectionData = [
   {
     title: "Welcome Section",
     description:
       "Introduce your site with a warm welcome and a brief overview.",
-    icon: <FaRegSmile {...iconProps} className="text-primary" />,
+    icon: <FaRegSmile {...iconProps} />,
   },
   {
     title: "About Info",
     description:
       "Share your mission, vision, and what makes your organization unique.",
-    icon: <FaInfoCircle {...iconProps} className="text-primary" />,
+    icon: <FaInfoCircle {...iconProps} />,
   },
   {
     title: "Choose Us",
     description:
       "Highlight key reasons or values that set you apart from others.",
-    icon: <FaRegThumbsUp {...iconProps} className="text-primary" />,
+    icon: <FaRegThumbsUp {...iconProps} />,
   },
+];
+
+const EditButton = () => (
+  <Button variant="outline" className="!font-medium mt-3 !text-sm" size="sm">
+    Edit Section
+  </Button>
+);
+
+const tips = [
+  <>
+    <span className="font-medium text-foreground">Click</span> on any section
+    above to start editing its content.
+  </>,
+  <>
+    Use the{" "}
+    <span className="font-medium text-foreground">formatting toolbar</span> to
+    add headings, lists, or links.
+  </>,
+  <>
+    <span className="font-medium text-foreground">Preview</span> your changes
+    before saving to ensure everything looks right.
+  </>,
+  <>
+    <span className="font-medium text-foreground">Save</span> your changes to
+    update the live site.
+  </>,
+  <>
+    If you need help, check the{" "}
+    <span className="font-medium text-foreground">documentation</span> or
+    contact support.
+  </>,
 ];
 
 const EditableSections = () => {
@@ -47,13 +83,18 @@ const EditableSections = () => {
 
   return (
     <>
-      <div className="mt-10 flex gap-5">
-        {sections.map((section) => (
-          <Card key={section.title} className="items-center text-center">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+        {sectionData.map(({ title, description, icon }) => (
+          <Card key={title} className="items-center text-center py-10">
             <CardContent className="flex flex-col items-center justify-between">
-              <div className="my-3">{section.icon}</div>
-              <CardTitle className="mb-2">{section.title}</CardTitle>
-              <CardDescription>{section.description}</CardDescription>
+              <div className="my-3 size-16 border border-primary/50 flex justify-center items-center rounded-lg">
+                {icon}
+              </div>
+              <CardTitle className="mb-2">{title}</CardTitle>
+              <CardDescription className="max-w-xs">
+                {description}
+              </CardDescription>
+              <EditButton />
             </CardContent>
           </Card>
         ))}
@@ -66,30 +107,9 @@ const EditableSections = () => {
           How to Edit Content
         </h2>
         <ul className="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>
-            <span className="font-medium text-foreground">Click</span> on any
-            section above to start editing its content.
-          </li>
-          <li>
-            Use the{" "}
-            <span className="font-medium text-foreground">
-              formatting toolbar
-            </span>{" "}
-            to add headings, lists, or links.
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Preview</span> your
-            changes before saving to ensure everything looks right.
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Save</span> your
-            changes to update the live site.
-          </li>
-          <li>
-            If you need help, check the{" "}
-            <span className="font-medium text-foreground">documentation</span>{" "}
-            or contact support.
-          </li>
+          {tips.map((tip, i) => (
+            <li key={i}>{tip}</li>
+          ))}
         </ul>
       </div>
     </>
