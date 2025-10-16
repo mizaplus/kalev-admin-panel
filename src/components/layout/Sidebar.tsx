@@ -61,20 +61,7 @@ const sections: NavSection[] = [
 export function Sidebar() {
   return (
     <aside className="flex h-full w-72 shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
-      <div className="flex items-center gap-3 px-6 py-6">
-        <div className="grid size-10 place-content-center rounded-full bg-primary/10 text-primary text-sm font-semibold">
-          D
-        </div>
-        <div className="space-y-0.5">
-          <span className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-            Dashquant
-          </span>
-          <p className="text-[0.625rem] text-muted-foreground">
-            Analytics & CRM Platform
-          </p>
-        </div>
-      </div>
-
+      <img src="/logo.png" alt="Logo" className="h-14 mx-auto my-4" />
       <div className="flex-1 space-y-6 overflow-y-auto px-4 pb-6">
         {sections.map((section) => (
           <Section key={section.label} section={section} />
