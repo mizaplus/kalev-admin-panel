@@ -1,13 +1,7 @@
 // Hooks
 import React, { useEffect, useMemo, useState } from "react";
 import { useHomepageContext } from "@/features/domain/context/homepage-context";
-import {
-  type ContentKey,
-  type HomePageReasonDetails,
-  type HomePageChooseUsDetails,
-  updateHomePageChooseUs,
-  updateHomePageEntries,
-} from "@/lib/api/homepage";
+import { type ContentKey } from "@/lib/api/homepage";
 
 // UI Components
 import {
@@ -30,6 +24,7 @@ import { Spinner } from "@/components/ui/spinner";
 // Utils
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useUpdate } from "@/lib/useUpdate";
 
 type ReasonForm = {
   key?: ContentKey;
@@ -70,12 +65,12 @@ const DEFAULT_CHOOSE_US = {
 };
 
 const ChooseUs = () => {
+  const { updating: saving, updateData } = useUpdate();
   const { data, reload, loading } = useHomepageContext();
   const chooseUs = data?.choose_us?.details;
   const chooseUsKey = data?.choose_us?.key;
 
   const [preview, setPreview] = useState(false);
-  const [saving, setSaving] = useState(false);
   const mapReasons = (reasons?: unknown): ReasonForm[] => {
     if (!Array.isArray(reasons) || reasons.length === 0) {
       return FALLBACK_REASONS.map((reason) => ({ ...reason }));
@@ -177,67 +172,52 @@ const ChooseUs = () => {
       return;
     }
 
-    const sanitizedReasons = form.reasons.map(
-      (reason): HomePageReasonDetails => ({
-        title: reason.title,
-        description: reason.description,
-        icon: reason.icon,
-        disabled: reason.disabled,
-      }),
-    );
-
     const keyedReasons = form.reasons.filter(
       (reason) => reason.key && reason.key.PK && reason.key.SK,
     );
 
-    if (!chooseUsKey && keyedReasons.length === 0) {
+    if (!chooseUsKey) {
       toast.error("Missing content keys for update.");
       return;
     }
 
-    const updates: Array<{ key: ContentKey; details: unknown }> = [];
-
-    if (chooseUsKey) {
-      updates.push({
-        key: chooseUsKey,
-        details: {
-          title: form.title,
-          description: form.description,
-          reasons: sanitizedReasons,
-        } satisfies HomePageChooseUsDetails,
-      });
+    if (keyedReasons.length === 0) {
+      toast.error("At least one reason must have a valid content key.");
+      return;
     }
 
-    updates.push(
-      ...keyedReasons.map((reason) => ({
-        key: reason.key as ContentKey,
+    const updates: Array<any> = [];
+
+    updates.push({
+      ...chooseUsKey,
+      details: {
+        title: form.title,
+        description: form.description,
+      },
+    });
+
+    // Include Reasons that have keys (existing reasons)
+    keyedReasons.forEach((reason) => {
+      updates.push({
+        ...reason.key!,
         details: {
           title: reason.title,
           description: reason.description,
           icon: reason.icon,
           disabled: reason.disabled,
-        } satisfies HomePageReasonDetails,
-      })),
-    );
+        },
+      });
+    });
 
-    setSaving(true);
-    try {
-      if (updates.length === 1 && chooseUsKey && keyedReasons.length === 0) {
-        await updateHomePageChooseUs(
-          updates[0].key,
-          updates[0].details as HomePageChooseUsDetails,
-        );
-      } else {
-        await updateHomePageEntries(updates);
-      }
-      toast.success("Choose Us section updated successfully!");
-      await reload();
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to save changes. Please try again.");
-    } finally {
-      setSaving(false);
+    if (updates.length === 0) {
+      toast.error("No valid data to update.");
+      return;
     }
+
+    const res = await updateData(updates);
+    if (!res) return;
+
+    await reload();
   };
 
   const previewReasons = useMemo(() => {

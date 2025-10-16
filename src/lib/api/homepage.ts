@@ -158,94 +158,15 @@ async function putContentItem<T>(payload: UpdatePayload<T>): Promise<Response> {
   });
 }
 
-async function putContentItems<T>(
-  payload: UpdatePayload<T>[],
-): Promise<Response> {
-  const token = await getAuthToken();
-
-  return fetch(API_ROOT, {
-    method: "PUT",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(
-      payload.map((item) => ({
-        PK: item.key.PK,
-        SK: item.key.SK,
-        details: item.details,
-      })),
-    ),
-  });
-}
-
-export async function updateHomePageHero(
+// Centralized update function for all homepage data updates
+export async function updateData(
   key: ContentKey,
-  details: HomePageHeroDetails,
+  details: unknown,
 ): Promise<void> {
   const response = await putContentItem({ key, details });
-
   if (!response.ok) {
     const message = await extractErrorMessage(response);
-    throw new Error(
-      message ?? `Failed to update hero content (${response.status})`,
-    );
-  }
-}
-
-export async function updateHomePageAbout(
-  key: ContentKey,
-  details: HomePageAboutDetails,
-): Promise<void> {
-  const response = await putContentItem({ key, details });
-
-  if (!response.ok) {
-    const message = await extractErrorMessage(response);
-    throw new Error(
-      message ?? `Failed to update about section (${response.status})`,
-    );
-  }
-}
-
-export async function updateHomePageChooseUs(
-  key: ContentKey,
-  details: HomePageChooseUsDetails,
-): Promise<void> {
-  const response = await putContentItem({ key, details });
-
-  if (!response.ok) {
-    const message = await extractErrorMessage(response);
-    throw new Error(
-      message ?? `Failed to update reasons section (${response.status})`,
-    );
-  }
-}
-
-export async function updateHomePageEntries(
-  entries: Array<{ key: ContentKey; details: unknown }>,
-): Promise<void> {
-  const response = await putContentItems(entries);
-
-  if (!response.ok) {
-    const message = await extractErrorMessage(response);
-    throw new Error(
-      message ?? `Failed to update homepage entries (${response.status})`,
-    );
-  }
-}
-
-export async function updateHomePagePrograms(
-  key: ContentKey,
-  details: HomePageProgramsDetails,
-): Promise<void> {
-  const response = await putContentItem({ key, details });
-
-  if (!response.ok) {
-    const message = await extractErrorMessage(response);
-    throw new Error(
-      message ?? `Failed to update programs (${response.status})`,
-    );
+    throw new Error(message ?? `Failed to update content (${response.status})`);
   }
 }
 

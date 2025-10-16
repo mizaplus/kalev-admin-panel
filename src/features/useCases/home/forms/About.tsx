@@ -1,7 +1,6 @@
 // Hooks
 import React, { useEffect, useMemo, useState } from "react";
 import { useHomepageContext } from "@/features/domain/context/homepage-context";
-import { updateHomePageAbout } from "@/lib/api/homepage";
 
 // UI Components
 import {
@@ -24,12 +23,14 @@ import { Label } from "@/components/ui/label";
 // Utils
 import { toast } from "sonner";
 import { resolveMediaUrl } from "@/lib/media";
+import { useUpdate } from "@/lib/useUpdate";
 
 const FALLBACK_INTRO = "Nonprofit • You Make a Difference";
 const FALLBACK_CONTENT =
   "Share your mission, impact, and the story behind your organization so supporters understand why your work matters.";
 
 const About = () => {
+  const { updateData } = useUpdate();
   const { data, reload, loading } = useHomepageContext();
   const about = data?.about?.details;
   const aboutKey = data?.about?.key;
@@ -92,7 +93,7 @@ const About = () => {
 
     setSaving(true);
     try {
-      await updateHomePageAbout(aboutKey, form);
+      await updateData([{ PK: aboutKey.PK, SK: aboutKey.SK, details: form }]);
       toast.success("About section updated successfully!");
       await reload();
     } catch (error) {

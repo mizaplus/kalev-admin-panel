@@ -1,8 +1,7 @@
-// Hooks
 import React, { useEffect, useState } from "react";
-import { useHomepageContext } from "@/features/domain/context/homepage-context";
 
-// UI Components
+import { useUpdate } from "@/lib/useUpdate";
+
 import {
   Sheet,
   SheetTrigger,
@@ -19,16 +18,14 @@ import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-
-// Utils
 import { toast } from "sonner";
+import { useAboutContext } from "@/features/domain/context/about-context";
 import { resolveMediaUrl } from "@/lib/media";
-import { useUpdate } from "@/lib/useUpdate";
+import { IoChevronForwardOutline } from "react-icons/io5";
 
-const Hero = () => {
-  const { updating, updateData } = useUpdate();
-  const { data, reload, loading } = useHomepageContext();
-  const hero = data?.hero?.details;
+const AboutHero = () => {
+  const { data, reload, loading } = useAboutContext();
+  const hero = data?.hero;
   const heroKey = data?.hero?.key;
 
   const [preview, setPreview] = useState(false);
@@ -37,6 +34,7 @@ const Hero = () => {
     tagline: hero?.tagline || "",
     image: hero?.image || "",
   });
+  const { updateData, updating: saving } = useUpdate();
 
   useEffect(() => {
     setForm({
@@ -58,6 +56,7 @@ const Hero = () => {
     form.tagline.trim() !== "" &&
     form.image.trim() !== "";
 
+  // Use centralized updateData
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!heroKey) return;
@@ -65,14 +64,18 @@ const Hero = () => {
       toast.error("All fields are required.");
       return;
     }
-
     const res = await updateData([
       {
         PK: heroKey.PK,
         SK: heroKey.SK,
-        details: form,
+        details: {
+          title: form.title,
+          tagline: form.tagline,
+          image: form.image,
+        },
       },
     ]);
+
     if (!res) return;
 
     await reload();
@@ -92,62 +95,64 @@ const Hero = () => {
       <SheetContent side="bottom" className="!h-screen">
         <div className="max-w-7xl w-full mx-auto">
           <SheetHeader>
-            <SheetTitle>Edit Hero Section</SheetTitle>
+            <SheetTitle>Edit About Hero Section</SheetTitle>
             <SheetDescription>
-              Update the main headline, subheading, and image for your homepage
-              hero section.
+              Update the main headline, subheading, and image for your about
+              page hero section.
             </SheetDescription>
           </SheetHeader>
           <div className="flex items-center space-x-2 px-3">
             <Switch
-              id="airplane-mode"
+              id="about-hero-preview"
               checked={preview}
               onCheckedChange={setPreview}
             />
-            <Label htmlFor="airplane-mode">Preview</Label>
+            <Label htmlFor="about-hero-preview">Preview</Label>
           </div>
           {!preview ? (
             <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit}>
               <Field>
-                <FieldLabel htmlFor="hero-headline">Headline</FieldLabel>
+                <FieldLabel htmlFor="about-hero-headline">Headline</FieldLabel>
                 <FieldContent>
                   <Input
-                    id="hero-headline"
+                    id="about-hero-headline"
                     name="title"
                     type="text"
                     placeholder="Enter headline"
                     value={form.title}
                     onChange={handleChange}
-                    disabled={loading || updating}
+                    disabled={loading || saving}
                     required
                   />
                 </FieldContent>
               </Field>
               <Field>
-                <FieldLabel htmlFor="hero-subheading">Subheading</FieldLabel>
+                <FieldLabel htmlFor="about-hero-subheading">
+                  Subheading
+                </FieldLabel>
                 <FieldContent>
                   <Textarea
-                    id="hero-subheading"
+                    id="about-hero-subheading"
                     name="tagline"
                     placeholder="Enter subheading"
                     value={form.tagline}
                     onChange={handleChange}
                     required
-                    disabled={loading || updating}
+                    disabled={loading || saving}
                   />
                 </FieldContent>
               </Field>
               <Field>
-                <FieldLabel htmlFor="hero-image">Image URL</FieldLabel>
+                <FieldLabel htmlFor="about-hero-image">Image URL</FieldLabel>
                 <FieldContent>
                   <Input
-                    id="hero-image"
+                    id="about-hero-image"
                     name="image"
                     type="text"
                     placeholder="Enter image URL"
                     value={form.image}
                     onChange={handleChange}
-                    disabled={loading || updating}
+                    disabled={loading || saving}
                     required
                   />
                 </FieldContent>
@@ -156,11 +161,11 @@ const Hero = () => {
                 <Button
                   type="submit"
                   size={"sm"}
-                  disabled={loading || updating || !isFormValid}
+                  disabled={loading || saving || !isFormValid}
                 >
-                  {updating ? (
+                  {saving ? (
                     <div className="flex gap-2 items-center">
-                      <Spinner /> updating...
+                      <Spinner /> Saving...
                     </div>
                   ) : (
                     "Save Changes"
@@ -171,7 +176,7 @@ const Hero = () => {
                     variant="outline"
                     className="!font-medium mt-3 !text-sm ml-3"
                     size="sm"
-                    disabled={loading || updating}
+                    disabled={loading || saving}
                   >
                     Cancel
                   </Button>
@@ -181,7 +186,7 @@ const Hero = () => {
           ) : (
             <div className="mt-4">
               <img
-                src="/header.png"
+                src={"/header.png"}
                 alt="Header Image"
                 className="border border-gray-300"
               />
@@ -197,12 +202,13 @@ const Hero = () => {
                   <h1 className="text-2xl font-semibold text-white drop-shadow">
                     {form.title || "Headline goes here"}
                   </h1>
-                  <p className="mt-2 text-sm text-white max-w-sm text-center">
-                    {form.tagline || "Subheading goes here"}
-                  </p>
-                  <Button size="lg" className="mt-4">
-                    Learn More
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-white">Home</span>
+                    <IoChevronForwardOutline className="text-white" />
+                    <span className="text-xs font-medium text-white">
+                      {form.tagline}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -213,4 +219,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default AboutHero;
