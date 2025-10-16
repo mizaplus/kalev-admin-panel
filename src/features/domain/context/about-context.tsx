@@ -1,5 +1,8 @@
 import { createContext, use, useEffect, useState } from "react";
-import type { AboutPageData } from "./about-types";
+import type { AboutPageData } from "../types/about-types";
+import api from "@/lib/api/main";
+import { toast } from "sonner";
+import { getAuthToken } from "@/lib/auth";
 
 interface AboutContextProps {
   data: AboutPageData | null;
@@ -21,49 +24,20 @@ export const useAboutContext = () => {
   return context;
 };
 
-const fetchAboutPage = async (): Promise<AboutPageData> => {
-  // TODO: Replace with real API call
-  // This is a placeholder for the structure you provided
-  return {
-    hero: {
-      image: "public/hero.jpg",
-      tagline: "Learn More",
-      title: "About us",
-      key: { SK: "HERO", PK: "ABOUT" },
-    },
-    story: {
-      title: "Our Story",
-      content: "...",
-      key: { SK: "STORY", PK: "ABOUT" },
-    },
-    info: {
-      mission_vision: {
-        vision: "To give hope and support ...",
-        mission: "Our mission is to ...",
-        key: { SK: "MISSION_VISION", PK: "ABOUT" },
+const fetchAboutPage = async () => {
+  try {
+    const res = await api.get("/page/about", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: await getAuthToken(),
       },
-      objectives: {
-        content: "## Our Objectives\n...",
-        key: { SK: "OBJECTIVES", PK: "ABOUT" },
-      },
-    },
-    team: {
-      director: {
-        name: "Mrs. Shareen Nahurira Muhumuza",
-        image: "public/user.png",
-        content: "Welcome to Kalev Child Care Foundation...",
-        key: { SK: "TEAM#DIRECTOR", PK: "ABOUT" },
-      },
-      members: [
-        {
-          name: "Mr. Ivan Muhumuza",
-          image: "public/user.png",
-          role: "Director",
-          key: { SK: "TEAM#MEMBER#1", PK: "ABOUT" },
-        },
-      ],
-    },
-  };
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching about page data:", error);
+    toast.error("Failed to load about page data.");
+  }
 };
 
 const AboutProvider: React.FC<{ children: React.ReactNode }> = ({

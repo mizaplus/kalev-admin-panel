@@ -171,3 +171,15 @@ body {
   font-weight: 400 !important;
   color: var(--foreground) !important;
 }
+
+/* ---------- Editor overrides  ----------- */
+.ql-editor {
+  min-height: 400px;
+  color: #555 !important;
+  font-family: "Open Sans", sans-serif;
+}
+
+.ql-toolbar.ql-snow {
+  border-color: #98a1ab !important;
+  background-color: #e0e0e0 !important;
+}

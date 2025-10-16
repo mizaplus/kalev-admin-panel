@@ -8,6 +8,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 import AboutHero from "./forms/Hero";
+import Story from "./forms/Story";
 
 const iconProps = {
   size: 36,
@@ -71,6 +72,7 @@ const AboutSections = () => {
                 {description}
               </CardDescription>
               {i === 0 && <AboutHero />}
+              {i === 1 && <Story />}
             </CardContent>
           </Card>
         ))}

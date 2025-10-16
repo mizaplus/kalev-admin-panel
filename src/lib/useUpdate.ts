@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { getAuthToken } from "./auth";
 import { toast } from "sonner";
+import api from "./api/main";
 
-const API_ROOT = "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod";
+export const API_ROOT =
+  "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod";
 
 export function useUpdate() {
   const [updating, setUpdating] = useState(false);
@@ -16,21 +18,11 @@ export function useUpdate() {
   ) {
     setUpdating(true);
     try {
-      const token = await getAuthToken();
-
-      const response = await fetch(API_ROOT, {
-        method: "PUT",
+      await api.put(API_ROOT, payload, {
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: await getAuthToken(),
         },
-        body: JSON.stringify(payload),
       });
-      if (!response.ok) {
-        throw new Error("Failed to update data");
-      }
-
       toast.success("Data Update successful");
       return true;
     } catch (error) {
