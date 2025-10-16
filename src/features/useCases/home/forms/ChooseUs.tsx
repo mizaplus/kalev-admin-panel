@@ -1,7 +1,13 @@
 // Hooks
 import React, { useEffect, useMemo, useState } from "react";
 import { useHomepageContext } from "@/features/domain/context/homepage-context";
-import { updateHomePageChooseUs } from "@/lib/api/homepage";
+import {
+  type ContentKey,
+  type HomePageReasonDetails,
+  type HomePageChooseUsDetails,
+  updateHomePageChooseUs,
+  updateHomePageEntries,
+} from "@/lib/api/homepage";
 
 // UI Components
 import {
@@ -26,6 +32,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 type ReasonForm = {
+  key?: ContentKey;
   title: string;
   description: string;
   icon: string;
@@ -69,17 +76,31 @@ const ChooseUs = () => {
 
   const [preview, setPreview] = useState(false);
   const [saving, setSaving] = useState(false);
-  const mapReasons = (reasons?: Array<Partial<ReasonForm>>): ReasonForm[] => {
-    if (reasons?.length) {
-      return reasons.map((reason) => ({
-        title: reason.title || "",
-        description: reason.description || "",
-        icon: reason.icon || "",
-        disabled: Boolean(reason.disabled),
-      }));
+  const mapReasons = (reasons?: unknown): ReasonForm[] => {
+    if (!Array.isArray(reasons) || reasons.length === 0) {
+      return FALLBACK_REASONS.map((reason) => ({ ...reason }));
     }
 
-    return FALLBACK_REASONS.map((reason) => ({ ...reason }));
+    return reasons.map((reason) => {
+      const record = (reason ?? {}) as Record<string, unknown>;
+      const base =
+        record.details && typeof record.details === "object"
+          ? (record.details as Partial<ReasonForm>)
+          : (record as Partial<ReasonForm>);
+
+      const key =
+        record.key && typeof record.key === "object"
+          ? (record.key as ContentKey)
+          : undefined;
+
+      return {
+        key,
+        title: base?.title || "",
+        description: base?.description || "",
+        icon: base?.icon || "",
+        disabled: typeof base?.disabled === "boolean" ? base.disabled : false,
+      };
+    });
   };
 
   const [form, setForm] = useState({
@@ -109,15 +130,15 @@ const ChooseUs = () => {
     });
   };
 
-  const addReason = () => {
-    setForm((previous) => ({
-      ...previous,
-      reasons: [
-        ...previous.reasons,
-        { title: "", description: "", icon: "", disabled: false },
-      ],
-    }));
-  };
+  // const addReason = () => {
+  //   setForm((previous) => ({
+  //     ...previous,
+  //     reasons: [
+  //       ...previous.reasons,
+  //       { title: "", description: "", icon: "", disabled: false },
+  //     ],
+  //   }));
+  // };
 
   const removeReason = (index: number) => {
     setForm((previous) => {
@@ -150,16 +171,65 @@ const ChooseUs = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!chooseUsKey) return;
 
     if (!isFormValid) {
       toast.error("Fill in all fields before saving.");
       return;
     }
 
+    const sanitizedReasons = form.reasons.map(
+      (reason): HomePageReasonDetails => ({
+        title: reason.title,
+        description: reason.description,
+        icon: reason.icon,
+        disabled: reason.disabled,
+      }),
+    );
+
+    const keyedReasons = form.reasons.filter(
+      (reason) => reason.key && reason.key.PK && reason.key.SK,
+    );
+
+    if (!chooseUsKey && keyedReasons.length === 0) {
+      toast.error("Missing content keys for update.");
+      return;
+    }
+
+    const updates: Array<{ key: ContentKey; details: unknown }> = [];
+
+    if (chooseUsKey) {
+      updates.push({
+        key: chooseUsKey,
+        details: {
+          title: form.title,
+          description: form.description,
+          reasons: sanitizedReasons,
+        } satisfies HomePageChooseUsDetails,
+      });
+    }
+
+    updates.push(
+      ...keyedReasons.map((reason) => ({
+        key: reason.key as ContentKey,
+        details: {
+          title: reason.title,
+          description: reason.description,
+          icon: reason.icon,
+          disabled: reason.disabled,
+        } satisfies HomePageReasonDetails,
+      })),
+    );
+
     setSaving(true);
     try {
-      await updateHomePageChooseUs(chooseUsKey, form);
+      if (updates.length === 1 && chooseUsKey && keyedReasons.length === 0) {
+        await updateHomePageChooseUs(
+          updates[0].key,
+          updates[0].details as HomePageChooseUsDetails,
+        );
+      } else {
+        await updateHomePageEntries(updates);
+      }
       toast.success("Choose Us section updated successfully!");
       await reload();
     } catch (error) {
@@ -209,54 +279,56 @@ const ChooseUs = () => {
           </div>
           {!preview ? (
             <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit}>
-              <Field>
-                <FieldLabel htmlFor="choose-title">Section title</FieldLabel>
-                <FieldContent>
-                  <Input
-                    id="choose-title"
-                    name="title"
-                    type="text"
-                    placeholder="Why Choose Us"
-                    value={form.title}
-                    onChange={(event) =>
-                      setForm((previous) => ({
-                        ...previous,
-                        title: event.target.value,
-                      }))
-                    }
-                    disabled={loading || saving}
-                    required
-                  />
-                </FieldContent>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="choose-description">
-                  Section description
-                </FieldLabel>
-                <FieldContent>
-                  <Textarea
-                    id="choose-description"
-                    name="description"
-                    placeholder="Explain why families and supporters should trust your organisation."
-                    value={form.description}
-                    onChange={(event) =>
-                      setForm((previous) => ({
-                        ...previous,
-                        description: event.target.value,
-                      }))
-                    }
-                    disabled={loading || saving}
-                    required
-                    className="min-h-[120px]"
-                  />
-                </FieldContent>
-              </Field>
+              <div className="space-y-3 rounded-lg border border-muted-foreground/20 bg-muted/30 p-4">
+                <Field>
+                  <FieldLabel htmlFor="choose-title">Section title</FieldLabel>
+                  <FieldContent>
+                    <Input
+                      id="choose-title"
+                      name="title"
+                      type="text"
+                      placeholder="Why Choose Us"
+                      value={form.title}
+                      onChange={(event) =>
+                        setForm((previous) => ({
+                          ...previous,
+                          title: event.target.value,
+                        }))
+                      }
+                      disabled={loading || saving}
+                      required
+                    />
+                  </FieldContent>
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="choose-description">
+                    Section description
+                  </FieldLabel>
+                  <FieldContent>
+                    <Textarea
+                      id="choose-description"
+                      name="description"
+                      placeholder="Explain why families and supporters should trust your organisation."
+                      value={form.description}
+                      onChange={(event) =>
+                        setForm((previous) => ({
+                          ...previous,
+                          description: event.target.value,
+                        }))
+                      }
+                      disabled={loading || saving}
+                      required
+                      className="min-h-[120px]"
+                    />
+                  </FieldContent>
+                </Field>
+              </div>
               <div className="space-y-3 rounded-lg border border-muted-foreground/20 bg-muted/30 p-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-foreground">
                     Reasons
                   </h3>
-                  <Button
+                  {/* <Button
                     type="button"
                     size="sm"
                     variant="outline"
@@ -264,7 +336,7 @@ const ChooseUs = () => {
                     disabled={loading || saving}
                   >
                     Add Reason
-                  </Button>
+                  </Button> */}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Icons use the icofont set, e.g. <code>icofont-heart</code>.

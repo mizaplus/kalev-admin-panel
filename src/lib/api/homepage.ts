@@ -32,10 +32,14 @@ export type HomePageReasonDetails = {
   title: string;
 };
 
+export type HomePageReason = HomePageReasonDetails & {
+  key?: ContentKey;
+};
+
 export type HomePageChooseUsDetails = {
   title: string;
   description: string;
-  reasons: HomePageReasonDetails[];
+  reasons: HomePageReason[];
 };
 
 export type HomePageProgramDetails = {
@@ -154,6 +158,28 @@ async function putContentItem<T>(payload: UpdatePayload<T>): Promise<Response> {
   });
 }
 
+async function putContentItems<T>(
+  payload: UpdatePayload<T>[],
+): Promise<Response> {
+  const token = await getAuthToken();
+
+  return fetch(API_ROOT, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(
+      payload.map((item) => ({
+        PK: item.key.PK,
+        SK: item.key.SK,
+        details: item.details,
+      })),
+    ),
+  });
+}
+
 export async function updateHomePageHero(
   key: ContentKey,
   details: HomePageHeroDetails,
@@ -192,6 +218,19 @@ export async function updateHomePageChooseUs(
     const message = await extractErrorMessage(response);
     throw new Error(
       message ?? `Failed to update reasons section (${response.status})`,
+    );
+  }
+}
+
+export async function updateHomePageEntries(
+  entries: Array<{ key: ContentKey; details: unknown }>,
+): Promise<void> {
+  const response = await putContentItems(entries);
+
+  if (!response.ok) {
+    const message = await extractErrorMessage(response);
+    throw new Error(
+      message ?? `Failed to update homepage entries (${response.status})`,
     );
   }
 }
