@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { v4 } from "uuid";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,5 +26,11 @@ export const toggleVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
+
+export const generateFileName = (name: string) => {
+  const id = v4();
+  const sanitized = name.replace(/\s+/g, "_").toLowerCase();
+  return `kelev-${id}-${sanitized}`;
+};

@@ -5,15 +5,9 @@
     "user_pool_client_id": "71qi9h1pvm2vv3jnuaee59odrd",
     "identity_pool_id": "eu-west-2:ba4573b6-d651-4978-b67c-61d315efd94b",
     "mfa_methods": [],
-    "standard_required_attributes": [
-      "email"
-    ],
-    "username_attributes": [
-      "email"
-    ],
-    "user_verification_types": [
-      "email"
-    ],
+    "standard_required_attributes": ["email"],
+    "username_attributes": ["email"],
+    "user_verification_types": ["email"],
     "groups": [],
     "mfa_configuration": "NONE",
     "password_policy": {
@@ -24,6 +18,32 @@
       "require_uppercase": true
     },
     "unauthenticated_identities_enabled": true
+  },
+  "storage": {
+    "aws_region": "eu-west-2",
+    "bucket_name": "amplify-kalevcms-andrew-s-kalevmediafilesbucketb01-vx7ogsyuz83y",
+    "buckets": [
+      {
+        "name": "kalev-media-files",
+        "bucket_name": "amplify-kalevcms-andrew-s-kalevmediafilesbucketb01-vx7ogsyuz83y",
+        "aws_region": "eu-west-2",
+        "paths": {
+          "public/*": {
+            "guest": ["get", "list"],
+            "authenticated": ["get", "list", "write", "delete"]
+          },
+          "protected/*": {
+            "authenticated": ["get", "list"]
+          },
+          "protected/${cognito-identity.amazonaws.com:sub}/*": {
+            "entityidentity": ["get", "list", "write", "delete"]
+          },
+          "private/${cognito-identity.amazonaws.com:sub}/*": {
+            "entityidentity": ["get", "list", "write", "delete"]
+          }
+        }
+      }
+    ]
   },
   "version": "1.4"
 }

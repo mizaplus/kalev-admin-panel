@@ -1,4 +1,4 @@
-const MEDIA_BASE_URL = "https://kalev-media-files.s3.eu-west-2.amazonaws.com";
+const MEDIA_BASE_URL = "https://media.kalevchild.org";
 
 const ABSOLUTE_URL_REGEX = /^(https?:)?\/\//i;
 

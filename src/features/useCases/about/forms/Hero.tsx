@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useAboutContext } from "@/features/domain/context/about-context";
 import { resolveMediaUrl } from "@/lib/media";
 import { IoChevronForwardOutline } from "react-icons/io5";
+import ImageUploader from "@/components/ui/image-uploader";
 
 const AboutHero = () => {
   const { data, reload, loading } = useAboutContext();
@@ -34,6 +35,7 @@ const AboutHero = () => {
     tagline: hero?.tagline || "",
     image: hero?.image || "",
   });
+  const [oldImage, setOldImage] = useState("");
   const { updateData, updating: saving } = useUpdate();
 
   useEffect(() => {
@@ -143,19 +145,17 @@ const AboutHero = () => {
                 </FieldContent>
               </Field>
               <Field>
-                <FieldLabel htmlFor="about-hero-image">Image URL</FieldLabel>
-                <FieldContent>
-                  <Input
-                    id="about-hero-image"
-                    name="image"
-                    type="text"
-                    placeholder="Enter image URL"
-                    value={form.image}
-                    onChange={handleChange}
-                    disabled={loading || saving}
-                    required
-                  />
-                </FieldContent>
+                <ImageUploader
+                  label="Background Image"
+                  setValue={(val) =>
+                    setForm((prev) => ({ ...prev, image: val }))
+                  }
+                  edit={{
+                    oldValue: oldImage,
+                    setOldValue: setOldImage,
+                  }}
+                  value={form.image}
+                />
               </Field>
               <div className="">
                 <Button

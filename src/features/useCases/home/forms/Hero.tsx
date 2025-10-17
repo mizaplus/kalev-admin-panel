@@ -24,6 +24,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { resolveMediaUrl } from "@/lib/media";
 import { useUpdate } from "@/lib/useUpdate";
+import ImageUploader from "@/components/ui/image-uploader";
 
 const Hero = () => {
   const { updating, updateData } = useUpdate();
@@ -37,6 +38,7 @@ const Hero = () => {
     tagline: hero?.tagline || "",
     image: hero?.image || "",
   });
+  const [oldImage, setOldImage] = useState("");
 
   useEffect(() => {
     setForm({
@@ -138,19 +140,17 @@ const Hero = () => {
                 </FieldContent>
               </Field>
               <Field>
-                <FieldLabel htmlFor="hero-image">Image URL</FieldLabel>
-                <FieldContent>
-                  <Input
-                    id="hero-image"
-                    name="image"
-                    type="text"
-                    placeholder="Enter image URL"
-                    value={form.image}
-                    onChange={handleChange}
-                    disabled={loading || updating}
-                    required
-                  />
-                </FieldContent>
+                <ImageUploader
+                  label="Background Image"
+                  setValue={(val) =>
+                    setForm((prev) => ({ ...prev, image: val }))
+                  }
+                  edit={{
+                    oldValue: oldImage,
+                    setOldValue: setOldImage,
+                  }}
+                  value={form.image}
+                />
               </Field>
               <div className="">
                 <Button

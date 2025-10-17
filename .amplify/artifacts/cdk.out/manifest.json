@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5085fbb00d11c1b3c207c0a0381046512ae4fe792df76024a23d7b9a90bb3cd5.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d40068820c8a4e1f7b283ce51a7c9c1adec346e0c7775683d03249ed62ba30b1.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,9 +34,7 @@
           "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
         }
       },
-      "dependencies": [
-        "amplify-kalevcms-andrew-sandbox-3045a5e6ec.assets"
-      ],
+      "dependencies": ["amplify-kalevcms-andrew-sandbox-3045a5e6ec.assets"],
       "metadata": {
         "/amplify-kalevcms-andrew-sandbox-3045a5e6ec": [
           {
@@ -129,6 +127,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxIdentityPool19FF0E4FRef"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/auth/amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxunauthenticatedUserRole85FA872ARef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxunauthenticatedUserRole85FA872ARef"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/auth/amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxauthenticatedUserRole8DE1C361Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxauthenticatedUserRole8DE1C361Ref"
           }
         ],
         "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/auth.NestedStack/auth.NestedStackResource": [
@@ -257,6 +267,120 @@
             "data": "groups"
           }
         ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/kalev-media-files/Bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "kalevmediafilesBucketB01335F8"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/kalev-media-files/Bucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "kalevmediafilesBucketPolicy5D0C65DA"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/kalev-media-files/Bucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "kalevmediafilesBucketAutoDeleteObjectsCustomResource5D6C7F84"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/KALEV_MEDIA_FILES_BUCKET_NAMEParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "KALEVMEDIAFILESBUCKETNAMEParameterA6B1CB5D"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/amplify-kalevcms-andrew-sandbox-3045a5e6ec--storageAccess4/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifykalevcmsandrewsandbox3045a5e6ecstorageAccess4DDA0CD20"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/amplify-kalevcms-andrew-sandbox-3045a5e6ec--storageAccess5/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifykalevcmsandrewsandbox3045a5e6ecstorageAccess5C50DC026"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/reference-to-amplifykalevcmsandrewsandbox3045a5e6ecauthNestedStackauthNestedStackResourceC55E1D36Outputs.amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxunauthenticatedUserRole85FA872ARef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifykalevcmsandrewsandbox3045a5e6ecauthNestedStackauthNestedStackResourceC55E1D36Outputsamplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxunauthenticatedUserRole85FA872ARef"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/reference-to-amplifykalevcmsandrewsandbox3045a5e6ecauthNestedStackauthNestedStackResourceC55E1D36Outputs.amplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxauthenticatedUserRole8DE1C361Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifykalevcmsandrewsandbox3045a5e6ecauthNestedStackauthNestedStackResourceC55E1D36Outputsamplifykalevcmsandrewsandbox3045a5e6ecauthkalevcmssandboxkalevcmssandboxauthenticatedUserRole8DE1C361Ref"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage/amplifykalevcmsandrewsandbox3045a5e6ecstoragekalevmediafilesBucket6C17115FRef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifykalevcmsandrewsandbox3045a5e6ecstoragekalevmediafilesBucket6C17115FRef"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storage.NestedStack/storage.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storage0EC3F24A"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/storageRegion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storageRegion"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/bucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bucketName"
+          }
+        ],
+        "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/buckets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "buckets"
+          }
+        ],
         "/amplify-kalevcms-andrew-sandbox-3045a5e6ec/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
@@ -354,10 +478,7 @@
             "explanation": "Enable this flag to make it impossible to accidentally use SecretValues in unsafe locations"
           },
           "@aws-cdk/core:target-partitions": {
-            "recommendedValue": [
-              "aws",
-              "aws-cn"
-            ],
+            "recommendedValue": ["aws", "aws-cn"],
             "explanation": "What regions to include in lookup tables of environment agnostic stacks"
           },
           "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": {

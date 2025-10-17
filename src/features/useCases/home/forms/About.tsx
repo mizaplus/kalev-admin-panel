@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { resolveMediaUrl } from "@/lib/media";
 import { useUpdate } from "@/lib/useUpdate";
+import ImageUploader from "@/components/ui/image-uploader";
 
 const FALLBACK_INTRO = "Nonprofit • You Make a Difference";
 const FALLBACK_CONTENT =
@@ -42,6 +43,7 @@ const About = () => {
     image: about?.image || "",
   });
   const [saving, setSaving] = useState(false);
+  const [oldImage, setOldImage] = useState("");
 
   useEffect(() => {
     setForm({
@@ -136,51 +138,55 @@ const About = () => {
           </div>
           {!preview ? (
             <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit}>
-              <Field>
-                <FieldLabel htmlFor="about-title">Section title</FieldLabel>
-                <FieldContent>
-                  <Input
-                    id="about-title"
-                    name="title"
-                    type="text"
-                    placeholder="About Us"
-                    value={form.title}
-                    onChange={handleChange}
-                    disabled={loading || saving}
-                    required
-                  />
-                </FieldContent>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="about-content">Description</FieldLabel>
-                <FieldContent>
-                  <Textarea
-                    id="about-content"
-                    name="content"
-                    placeholder="Share the mission and impact of your organisation."
-                    value={form.content}
-                    onChange={handleChange}
-                    disabled={loading || saving}
-                    required
-                    className="min-h-[180px]"
-                  />
-                </FieldContent>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="about-image">Image URL</FieldLabel>
-                <FieldContent>
-                  <Input
-                    id="about-image"
-                    name="image"
-                    type="text"
-                    placeholder="https://..."
-                    value={form.image}
-                    onChange={handleChange}
-                    disabled={loading || saving}
-                    required
-                  />
-                </FieldContent>
-              </Field>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Field>
+                    <FieldLabel htmlFor="about-title">Section title</FieldLabel>
+                    <FieldContent>
+                      <Input
+                        id="about-title"
+                        name="title"
+                        type="text"
+                        placeholder="About Us"
+                        value={form.title}
+                        onChange={handleChange}
+                        disabled={loading || saving}
+                        required
+                      />
+                    </FieldContent>
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="about-content">Description</FieldLabel>
+                    <FieldContent>
+                      <Textarea
+                        id="about-content"
+                        name="content"
+                        placeholder="Share the mission and impact of your organisation."
+                        value={form.content}
+                        onChange={handleChange}
+                        disabled={loading || saving}
+                        required
+                        className="min-h-[180px]"
+                      />
+                    </FieldContent>
+                  </Field>
+                </div>
+                <div>
+                  <Field>
+                    <ImageUploader
+                      label="Background Image"
+                      setValue={(val) =>
+                        setForm((prev) => ({ ...prev, image: val }))
+                      }
+                      edit={{
+                        oldValue: oldImage,
+                        setOldValue: setOldImage,
+                      }}
+                      value={form.image}
+                    />
+                  </Field>
+                </div>
+              </div>
               <div>
                 <Button
                   type="submit"
