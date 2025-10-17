@@ -7,10 +7,11 @@ import DashboardPage from "@/pages/DashboardPage";
 import DonatePage from "@/pages/DonatePage";
 import FilesPage from "@/pages/FilesPage";
 import GetInvolvedPage from "@/pages/GetInvolvedPage";
-import HomePage from "@/features/ui/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ProgramsPage from "@/pages/ProgramsPage";
-import AboutPage from "./features/ui/AboutPage";
+// Pages
+import AboutPage from "@/features/ui/AboutPage";
+import HomePage from "@/features/ui/HomePage";
 
 const router = createBrowserRouter([
   {
