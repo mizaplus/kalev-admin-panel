@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { resolveMediaUrl } from "@/lib/media";
 import { IoTrashBinOutline } from "react-icons/io5";
+import { SheetClose } from "@/components/ui/sheet";
 import { toast } from "sonner";
 
 // Utils
@@ -114,6 +115,15 @@ const Members = () => {
               </div>
             </div>
           ))}
+          <SheetClose asChild>
+            <Button
+              variant="outline"
+              className="!font-medium mt-3 !text-sm"
+              size="sm"
+            >
+              Close
+            </Button>
+          </SheetClose>
         </div>
       ) : (
         <form

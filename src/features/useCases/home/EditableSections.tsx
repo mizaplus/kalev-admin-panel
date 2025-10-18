@@ -86,9 +86,9 @@ const tips = [
 ];
 
 const EditableSections = () => {
-  const { loading } = useHomepageContext();
+  const { loading, data } = useHomepageContext();
 
-  if (loading)
+  if (loading && !data)
     return (
       <div className="flex flex-col items-center justify-center h-[500px]">
         <Spinner className="size-8" />
@@ -98,6 +98,7 @@ const EditableSections = () => {
 
   return (
     <>
+      {loading && <Spinner className="size-8 mb-4 mx-auto" />}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
         {sectionData.map(({ title, description, icon, action }) => (
           <Card key={title} className="items-center text-center py-10">
