@@ -13,8 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Director from "./_partails/Director";
 import Members from "./_partails/Members";
+import { Spinner } from "@/components/ui/spinner";
+import { useAboutContext } from "@/features/domain/context/about-context";
 
 const Team: React.FC = () => {
+  const { loading } = useAboutContext();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -36,6 +40,14 @@ const Team: React.FC = () => {
             <SheetDescription>
               Modify your team&apos;s information and details here.
             </SheetDescription>
+            {loading && (
+              <div className="flex items-center gap-1">
+                <Spinner className="size-5 text-primary" />
+                <span className="text-sm text-muted-foreground">
+                  Syncing...
+                </span>
+              </div>
+            )}
           </SheetHeader>
           <Tabs defaultValue="director" className="px-4">
             <TabsList>

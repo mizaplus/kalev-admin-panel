@@ -54,4 +54,4 @@ type AboutPageData = {
   team: AboutPageTeam;
 };
 
-export type { AboutPageData };
+export type { AboutPageData, AboutPageTeamMember };

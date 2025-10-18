@@ -95,6 +95,14 @@ const ProgramsInfo = () => {
             <SheetDescription>
               Update the title and description for your programs intro section.
             </SheetDescription>
+            {loading && (
+              <div className="flex items-center gap-1">
+                <Spinner className="size-5 text-primary" />
+                <span className="text-sm text-muted-foreground">
+                  Syncing...
+                </span>
+              </div>
+            )}
           </SheetHeader>
           <div className="flex items-center space-x-2 px-3">
             <Switch

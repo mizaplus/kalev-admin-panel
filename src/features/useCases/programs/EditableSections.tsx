@@ -9,6 +9,7 @@ import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 import ProgramsHero from "./forms/Hero";
 import { useProgramsContext } from "@/features/domain/context/programs-context";
 import ProgramsInfo from "./forms/Info";
+import Programs from "./forms/programs";
 
 const iconProps = {
   size: 36,
@@ -76,6 +77,7 @@ const ProgramsSections = () => {
               </CardDescription>
               {i === 0 && <ProgramsHero />}
               {i === 1 && <ProgramsInfo />}
+              {i === 2 && <Programs />}
             </CardContent>
           </Card>
         ))}

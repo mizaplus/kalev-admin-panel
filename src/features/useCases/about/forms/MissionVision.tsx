@@ -113,6 +113,14 @@ const MissionVision = () => {
             <SheetDescription>
               Update the mission and vision statements.
             </SheetDescription>
+            {loading && (
+              <div className="flex items-center gap-1">
+                <Spinner className="size-5 text-primary" />
+                <span className="text-sm text-muted-foreground">
+                  Syncing...
+                </span>
+              </div>
+            )}
           </SheetHeader>
 
           <div className="flex items-center space-x-2 px-3">

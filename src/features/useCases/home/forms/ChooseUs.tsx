@@ -125,16 +125,6 @@ const ChooseUs = () => {
     });
   };
 
-  // const addReason = () => {
-  //   setForm((previous) => ({
-  //     ...previous,
-  //     reasons: [
-  //       ...previous.reasons,
-  //       { title: "", description: "", icon: "", disabled: false },
-  //     ],
-  //   }));
-  // };
-
   const removeReason = (index: number) => {
     setForm((previous) => {
       if (previous.reasons.length <= 1) {
@@ -248,6 +238,14 @@ const ChooseUs = () => {
               Tailor your key value propositions and the reasons supporters
               connect with your organisation.
             </SheetDescription>
+            {loading && (
+              <div className="flex items-center gap-1">
+                <Spinner className="size-5 text-primary" />
+                <span className="text-sm text-muted-foreground">
+                  Syncing...
+                </span>
+              </div>
+            )}
           </SheetHeader>
           <div className="flex items-center space-x-2 px-3">
             <Switch
