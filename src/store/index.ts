@@ -15,11 +15,14 @@ import storage from "redux-persist/lib/storage";
 import homepageReducer from "./homepage/slice";
 import aboutReducer from "./about/slice";
 import programsReducer from "./programs/slice";
+import involvementReducer from "./involvement/slice";
+import { loadInvolvement } from "./involvement/actions";
 
 const rootReducer = combineReducers({
   homepage: homepageReducer,
   about: aboutReducer,
   programs: programsReducer,
+  involvement: involvementReducer,
 });
 
 const persistConfig = {
@@ -44,3 +47,4 @@ export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export { loadInvolvement };
