@@ -6,13 +6,13 @@ import ContactPage from "@/pages/ContactPage";
 import DashboardPage from "@/pages/DashboardPage";
 import DonatePage from "@/pages/DonatePage";
 import FilesPage from "@/pages/FilesPage";
-import GetInvolvedPage from "@/pages/GetInvolvedPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
 // Pages
 import AboutPage from "@/features/ui/AboutPage";
 import HomePage from "@/features/ui/HomePage";
 import ProgramsPage from "./features/ui/ProgramsPage";
+import GetInvolvedPage from "./features/ui/GetInvolvedPage";
 
 const router = createBrowserRouter([
   {

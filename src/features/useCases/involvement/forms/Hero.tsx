@@ -1,30 +1,38 @@
+// Hooks
 import React, { useEffect, useState } from "react";
+import { useInvolvementContext } from "@/features/domain/context/involvement-context";
 
-import { useMutations } from "@/lib/useMutations";
-
-import { Button } from "@/components/ui/button";
-import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
-import HeroPreview from "@/components/ui/hero";
-import ImageUploader from "@/components/ui/image-uploader";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// UI Components
 import {
   Sheet,
-  SheetClose,
+  SheetTrigger,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
+  SheetDescription,
+  SheetClose,
 } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useProgramsContext } from "@/features/domain/context/programs-context";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import ImageUploader from "@/components/ui/image-uploader";
+import { useMutations } from "@/lib/useMutations";
+import HeroPreview from "@/components/ui/hero";
 
-const ProgramsHero = () => {
-  const { data, reload, loading } = useProgramsContext();
+// Utils
+// (none needed)
+
+// Types
+// (none needed)
+
+const InvolvementHero = () => {
+  const { updateData, updating } = useMutations();
+  const { data, reload, loading } = useInvolvementContext();
   const hero = data?.hero;
   const heroKey = data?.hero?.key;
 
@@ -35,7 +43,6 @@ const ProgramsHero = () => {
     image: hero?.image || "",
   });
   const [oldImage, setOldImage] = useState("");
-  const { updateData, updating: saving } = useMutations();
 
   useEffect(() => {
     setForm({
@@ -57,7 +64,6 @@ const ProgramsHero = () => {
     form.tagline.trim() !== "" &&
     form.image.trim() !== "";
 
-  // Use centralized updateData
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!heroKey) return;
@@ -76,9 +82,7 @@ const ProgramsHero = () => {
         },
       },
     ]);
-
     if (!res) return;
-
     await reload();
   };
 
@@ -96,10 +100,10 @@ const ProgramsHero = () => {
       <SheetContent side="bottom" className="!h-screen">
         <div className="max-w-7xl w-full mx-auto">
           <SheetHeader>
-            <SheetTitle>Edit About Hero Section</SheetTitle>
+            <SheetTitle>Edit Get Involved Hero Section</SheetTitle>
             <SheetDescription>
-              Update the main headline, subheading, and image for your about
-              page hero section.
+              Update the main headline, subheading, and image for your Get
+              Involved page hero section.
             </SheetDescription>
             {loading && (
               <div className="flex items-center gap-1">
@@ -112,42 +116,44 @@ const ProgramsHero = () => {
           </SheetHeader>
           <div className="flex items-center space-x-2 px-3">
             <Switch
-              id="about-hero-preview"
+              id="involvement-hero-preview"
               checked={preview}
               onCheckedChange={setPreview}
             />
-            <Label htmlFor="about-hero-preview">Preview</Label>
+            <Label htmlFor="involvement-hero-preview">Preview</Label>
           </div>
           {!preview ? (
             <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit}>
               <Field>
-                <FieldLabel htmlFor="about-hero-headline">Headline</FieldLabel>
+                <FieldLabel htmlFor="involvement-hero-headline">
+                  Headline
+                </FieldLabel>
                 <FieldContent>
                   <Input
-                    id="about-hero-headline"
+                    id="involvement-hero-headline"
                     name="title"
                     type="text"
                     placeholder="Enter headline"
                     value={form.title}
                     onChange={handleChange}
-                    disabled={loading || saving}
+                    disabled={loading || updating}
                     required
                   />
                 </FieldContent>
               </Field>
               <Field>
-                <FieldLabel htmlFor="about-hero-subheading">
+                <FieldLabel htmlFor="involvement-hero-subheading">
                   Subheading
                 </FieldLabel>
                 <FieldContent>
                   <Textarea
-                    id="about-hero-subheading"
+                    id="involvement-hero-subheading"
                     name="tagline"
                     placeholder="Enter subheading"
                     value={form.tagline}
                     onChange={handleChange}
                     required
-                    disabled={loading || saving}
+                    disabled={loading || updating}
                   />
                 </FieldContent>
               </Field>
@@ -168,9 +174,9 @@ const ProgramsHero = () => {
                 <Button
                   type="submit"
                   size={"sm"}
-                  disabled={loading || saving || !isFormValid}
+                  disabled={loading || updating || !isFormValid}
                 >
-                  {saving ? (
+                  {updating ? (
                     <div className="flex gap-2 items-center">
                       <Spinner /> Saving...
                     </div>
@@ -183,7 +189,7 @@ const ProgramsHero = () => {
                     variant="outline"
                     className="!font-medium mt-3 !text-sm ml-3"
                     size="sm"
-                    disabled={loading || saving}
+                    disabled={loading || updating}
                   >
                     Cancel
                   </Button>
@@ -203,4 +209,4 @@ const ProgramsHero = () => {
   );
 };
 
-export default ProgramsHero;
+export default InvolvementHero;

@@ -1,30 +1,30 @@
 // Hooks
-import React, { useEffect, useState } from "react";
 import { useHomepageContext } from "@/features/domain/context/homepage-context";
+import React, { useEffect, useState } from "react";
 
 // UI Components
+import { Button } from "@/components/ui/button";
+import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetTrigger,
+  SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
-  SheetClose,
+  SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 
 // Utils
-import { toast } from "sonner";
-import { resolveMediaUrl } from "@/lib/media";
-import { useMutations } from "@/lib/useMutations";
+import HeroPreview from "@/components/ui/hero";
 import ImageUploader from "@/components/ui/image-uploader";
+import { useMutations } from "@/lib/useMutations";
+import { toast } from "sonner";
 
 const Hero = () => {
   const { updating, updateData } = useMutations();
@@ -187,33 +187,12 @@ const Hero = () => {
               </div>
             </form>
           ) : (
-            <div className="mt-4">
-              <img
-                src="/header.png"
-                alt="Header Image"
-                className="border border-gray-300"
-              />
-              <div
-                className="h-[500px] bg-cover bg-center flex flex-col items-center justify-center overflow-hidden rounded"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(0,0,0,0.6)), url(${resolveMediaUrl(
-                    form.image,
-                  )})`,
-                }}
-              >
-                <div className="relative z-10 p-8 flex flex-col items-center justify-center">
-                  <h1 className="text-2xl font-semibold text-white drop-shadow">
-                    {form.title || "Headline goes here"}
-                  </h1>
-                  <p className="mt-2 text-sm text-white max-w-sm text-center">
-                    {form.tagline || "Subheading goes here"}
-                  </p>
-                  <Button size="lg" className="mt-4">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <HeroPreview
+              title={form.title}
+              tagline={form.tagline}
+              image={form.image}
+              isHome
+            />
           )}
         </div>
       </SheetContent>

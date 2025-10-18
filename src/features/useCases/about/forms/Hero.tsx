@@ -20,9 +20,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { useAboutContext } from "@/features/domain/context/about-context";
-import { resolveMediaUrl } from "@/lib/media";
-import { IoChevronForwardOutline } from "react-icons/io5";
 import ImageUploader from "@/components/ui/image-uploader";
+import HeroPreview from "@/components/ui/hero";
 
 const AboutHero = () => {
   const { data, reload, loading } = useAboutContext();
@@ -192,34 +191,11 @@ const AboutHero = () => {
               </div>
             </form>
           ) : (
-            <div className="mt-4">
-              <img
-                src={"/header.png"}
-                alt="Header Image"
-                className="border border-gray-300"
-              />
-              <div
-                className="h-[500px] bg-cover bg-center flex flex-col items-center justify-center overflow-hidden rounded"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(0,0,0,0.6)), url(${resolveMediaUrl(
-                    form.image,
-                  )})`,
-                }}
-              >
-                <div className="relative z-10 p-8 flex flex-col items-center justify-center">
-                  <h1 className="text-2xl font-semibold text-white drop-shadow">
-                    {form.title || "Headline goes here"}
-                  </h1>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-white">Home</span>
-                    <IoChevronForwardOutline className="text-white" />
-                    <span className="text-xs font-medium text-white">
-                      {form.tagline}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HeroPreview
+              title={form.title}
+              tagline={form.tagline}
+              image={form.image}
+            />
           )}
         </div>
       </SheetContent>

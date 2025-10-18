@@ -5,6 +5,8 @@ import {
   setInvolvementError,
 } from "./slice";
 import type { GetInvolvedPageData } from "./types";
+import api from "@/lib/api/main";
+import { getAuthToken } from "@/lib/auth";
 
 export const loadInvolvement = createAsyncThunk<
   GetInvolvedPageData,
@@ -13,9 +15,13 @@ export const loadInvolvement = createAsyncThunk<
 >("involvement/loadInvolvement", async (_, { rejectWithValue, dispatch }) => {
   dispatch(setInvolvementLoading(true));
   try {
-    const res = await fetch("/page/involvement");
-    if (!res.ok) throw new Error("Failed to fetch involvement data");
-    const data = await res.json();
+    const res = await api.get("/page/about", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: await getAuthToken(),
+      },
+    });
+    const data = res.data;
     dispatch(setInvolvementData(data));
     return data;
   } catch (err: any) {

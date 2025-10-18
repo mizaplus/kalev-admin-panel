@@ -1,14 +1,9 @@
 // Hooks
-import React, { useContext, useMemo, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
 
 // Utils
 import { loadInvolvement } from "@/store";
-import {
-  setInvolvementData,
-  setInvolvementLoading,
-  setInvolvementError,
-} from "@/store/involvement/slice";
 
 // Types
 import type { GetInvolvedPageData } from "@/store/involvement/types";
@@ -18,7 +13,6 @@ interface InvolvementContextValue {
   loading: boolean;
   error: string | null;
   reload: () => void;
-  updateData: (payload: any) => Promise<any>;
 }
 
 const InvolvementContext = React.createContext<
@@ -35,30 +29,13 @@ export const InvolvementProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch(loadInvolvement());
   }, [dispatch]);
 
-  const updateData = useCallback(
-    async (payload: any) => {
-      dispatch(setInvolvementLoading(true));
-      try {
-        const res = await fetch("/page/involvement", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error("Failed to update involvement data");
-        const updated = await res.json();
-        dispatch(setInvolvementData(updated));
-        return updated;
-      } catch (err: any) {
-        dispatch(setInvolvementError(err.message || "Unknown error"));
-        return null;
-      }
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(loadInvolvement());
+  }, [dispatch]);
 
   const value = useMemo(
-    () => ({ data, loading, error, reload, updateData }),
-    [data, loading, error, reload, updateData],
+    () => ({ data, loading, error, reload }),
+    [data, loading, error, reload],
   );
 
   return (
