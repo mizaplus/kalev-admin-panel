@@ -98,10 +98,17 @@ const EditableSections = () => {
 
   return (
     <>
-      {loading && <Spinner className="size-8 mb-4 mx-auto" />}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
         {sectionData.map(({ title, description, icon, action }) => (
-          <Card key={title} className="items-center text-center py-10">
+          <Card key={title} className="relative items-center text-center py-10">
+            {loading && (
+              <div className="absolute top-3 right-3 flex items-center gap-1">
+                <Spinner className="size-4 text-primary" />
+                <span className="text-xs text-muted-foreground">
+                  Syncing...
+                </span>
+              </div>
+            )}
             <CardContent className="flex flex-col items-center justify-between">
               <div className="my-3 size-16 border border-primary/50 flex justify-center items-center rounded-lg">
                 {icon}

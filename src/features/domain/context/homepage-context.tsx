@@ -1,5 +1,7 @@
-import { fetchHomePage, type HomePageResponse } from "@/lib/api/homepage";
-import { createContext, useContext, useEffect, useState } from "react";
+import { type HomePageResponse } from "@/lib/api/homepage";
+import { createContext, useContext, useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { loadHomepage } from "@/store/homepage/actions";
 
 interface HomepageContextProps {
   data: HomePageResponse | null;
@@ -23,29 +25,25 @@ export const useHomepageContext = () => {
   return context;
 };
 
-const HomepageProvider: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
-  const [data, setData] = useState<HomePageResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+const HomepageProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.homepage.data);
+  const loading = useAppSelector((state) => state.homepage.loading);
 
-  const loadData = async () => {
-    try {
-      const result = await fetchHomePage();
-      setData(result);
-    } catch (error) {
-      console.error("Error loading homepage data:", error);
-    } finally {
-      setLoading(false);
-    }
+  // Mimic reload API from context
+  const reload = async () => {
+    await dispatch(loadHomepage());
   };
 
   useEffect(() => {
-    loadData();
+    dispatch(loadHomepage());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <HomepageContext.Provider value={{ data, loading, reload: loadData }}>
+    <HomepageContext.Provider value={{ data, loading, reload }}>
       {children}
     </HomepageContext.Provider>
   );
