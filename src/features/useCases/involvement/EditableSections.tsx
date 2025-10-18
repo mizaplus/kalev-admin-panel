@@ -11,7 +11,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 import InvolvementHero from "./forms/Hero";
-// import InvolvementIntro from "./forms/Intro";
+import InvolvementIntro from "./forms/Intro";
 // import InvolvementOptions from "./forms/Options";
 
 // Utils
@@ -86,7 +86,7 @@ const InvolvementSections = () => {
                 {description}
               </CardDescription>
               {i === 0 && <InvolvementHero />}
-              {/* {i === 1 && <InvolvementIntro />} */}
+              {i === 1 && <InvolvementIntro />}
               {/* {i === 2 && <InvolvementOptions />} */}
             </CardContent>
           </Card>

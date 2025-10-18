@@ -15,7 +15,7 @@ export const loadInvolvement = createAsyncThunk<
 >("involvement/loadInvolvement", async (_, { rejectWithValue, dispatch }) => {
   dispatch(setInvolvementLoading(true));
   try {
-    const res = await api.get("/page/about", {
+    const res = await api.get("/page/involvement", {
       headers: {
         "Content-Type": "application/json",
         Authorization: await getAuthToken(),
