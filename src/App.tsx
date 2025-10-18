@@ -8,10 +8,11 @@ import DonatePage from "@/pages/DonatePage";
 import FilesPage from "@/pages/FilesPage";
 import GetInvolvedPage from "@/pages/GetInvolvedPage";
 import NotFoundPage from "@/pages/NotFoundPage";
-import ProgramsPage from "@/pages/ProgramsPage";
+
 // Pages
 import AboutPage from "@/features/ui/AboutPage";
 import HomePage from "@/features/ui/HomePage";
+import ProgramsPage from "./features/ui/ProgramsPage";
 
 const router = createBrowserRouter([
   {

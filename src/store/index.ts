@@ -14,10 +14,12 @@ import storage from "redux-persist/lib/storage";
 // import your slices here
 import homepageReducer from "./homepage/slice";
 import aboutReducer from "./about/slice";
+import programsReducer from "./programs/slice";
 
 const rootReducer = combineReducers({
   homepage: homepageReducer,
   about: aboutReducer,
+  programs: programsReducer,
 });
 
 const persistConfig = {
