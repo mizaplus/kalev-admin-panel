@@ -13,10 +13,11 @@ import {
 import storage from "redux-persist/lib/storage";
 // import your slices here
 import homepageReducer from "./homepage/slice";
+import aboutReducer from "./about/slice";
 
 const rootReducer = combineReducers({
   homepage: homepageReducer,
-  // about: aboutReducer,
+  about: aboutReducer,
 });
 
 const persistConfig = {
@@ -34,7 +35,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-  devTools: true,
+  devTools: import.meta.env.DEV,
 });
 
 export const persistor = persistStore(store);

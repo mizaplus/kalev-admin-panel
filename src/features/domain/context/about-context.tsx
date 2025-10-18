@@ -1,8 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import type { AboutPageData } from "../types/about-types";
-import api from "@/lib/api/main";
-import { toast } from "sonner";
-import { getAuthToken } from "@/lib/auth";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { loadAbout } from "@/store/about/actions";
 
 interface AboutContextProps {
   data: AboutPageData | null;
@@ -24,46 +23,25 @@ export const useAboutContext = () => {
   return context;
 };
 
-const fetchAboutPage = async () => {
-  try {
-    const res = await api.get("/page/about", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: await getAuthToken(),
-      },
-    });
-
-    return res.data;
-  } catch (error) {
-    console.error("Error fetching about page data:", error);
-    toast.error("Failed to load about page data.");
-  }
-};
-
 const AboutProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [data, setData] = useState<AboutPageData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.about.data);
+  const loading = useAppSelector((state) => state.about.loading);
 
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchAboutPage();
-      setData(result);
-    } catch (error) {
-      console.error("Error loading about page data:", error);
-    } finally {
-      setLoading(false);
-    }
+  // Mimic reload API from context
+  const reload = async () => {
+    await dispatch(loadAbout());
   };
 
   useEffect(() => {
-    loadData();
+    dispatch(loadAbout());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <AboutContext.Provider value={{ data, loading, reload: loadData }}>
+    <AboutContext.Provider value={{ data, loading, reload }}>
       {children}
     </AboutContext.Provider>
   );
