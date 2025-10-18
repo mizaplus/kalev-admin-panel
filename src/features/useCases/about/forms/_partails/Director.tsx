@@ -1,19 +1,18 @@
+import { Button } from "@/components/ui/button";
+import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useAboutContext } from "@/features/domain/context/about-context";
 import { useMutations } from "@/lib/useMutations";
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 // Removed Sheet imports
+import ImageUploader from "@/components/ui/image-uploader";
+import TextEditor from "@/components/ui/rich-text-editor";
+import { SheetClose } from "@/components/ui/sheet";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
-import ImageUploader from "@/components/ui/image-uploader";
-import { SheetClose } from "@/components/ui/sheet";
-import TextEditor from "@/components/ui/rich-text-editor";
-import { resolveMediaUrl } from "@/lib/media";
-import { cleanupHtmlString } from "@/lib/utils";
+import Preview from "./Preview";
 
 const Director = () => {
   const { data, reload, loading } = useAboutContext();
@@ -145,30 +144,7 @@ const Director = () => {
           </div>
         </form>
       ) : (
-        <div className="p-8 border border-gray-200 rounded-md">
-          <h4 className="text-4xl font-bold text-center">
-            <span className="text-primary">Our</span> Team
-          </h4>
-          <div className="h-0.5 w-20 bg-primary mx-auto mb-10 mt-2" />
-          <div className="flex flex-col justify-center">
-            <div className="size-72 aspect-square rounded-md relative overflow-hidden mx-auto">
-              <img
-                src={resolveMediaUrl(form.image)}
-                className="object-cover object-center"
-                alt=""
-              />
-            </div>
-            <h3 className="text-xl font-semibold mt-4 text-center">
-              <span className="text-primary">CEO/Director:</span> {form.name}
-            </h3>
-            <div
-              className="markdown"
-              dangerouslySetInnerHTML={{
-                __html: cleanupHtmlString(form.content),
-              }}
-            />
-          </div>
-        </div>
+        <Preview />
       )}
     </div>
   );
