@@ -14,13 +14,13 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { useAboutContext } from "@/features/domain/context/about-context";
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 import { cleanupHtmlString } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const Story = () => {
-  const { updating, updateData } = useUpdate();
+  const { updating, updateData } = useMutations();
   const { data, reload, loading } = useAboutContext();
   const [form, setForm] = useState({
     content: data?.story.content || "",

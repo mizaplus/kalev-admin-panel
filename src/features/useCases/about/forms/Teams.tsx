@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Director from "./_partails/Director";
+import Members from "./_partails/Members";
 
 const Team: React.FC = () => {
   return (
@@ -39,12 +40,14 @@ const Team: React.FC = () => {
           <Tabs defaultValue="director" className="px-4">
             <TabsList>
               <TabsTrigger value="director">Director</TabsTrigger>
-              <TabsTrigger value="password">Members</TabsTrigger>
+              <TabsTrigger value="members">Members</TabsTrigger>
             </TabsList>
             <TabsContent value="director">
               <Director />
             </TabsContent>
-            <TabsContent value="password"></TabsContent>
+            <TabsContent value="members">
+              <Members />
+            </TabsContent>
           </Tabs>
         </div>
       </SheetContent>

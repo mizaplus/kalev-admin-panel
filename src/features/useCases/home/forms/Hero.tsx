@@ -23,11 +23,11 @@ import { Switch } from "@/components/ui/switch";
 // Utils
 import { toast } from "sonner";
 import { resolveMediaUrl } from "@/lib/media";
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 import ImageUploader from "@/components/ui/image-uploader";
 
 const Hero = () => {
-  const { updating, updateData } = useUpdate();
+  const { updating, updateData } = useMutations();
   const { data, reload, loading } = useHomepageContext();
   const hero = data?.hero?.details;
   const heroKey = data?.hero?.key;

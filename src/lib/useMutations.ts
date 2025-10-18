@@ -6,9 +6,33 @@ import api from "./api/main";
 export const API_ROOT =
   "https://frmw9v5tz3.execute-api.eu-west-2.amazonaws.com/Prod";
 
-export function useUpdate() {
+export function useMutations() {
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  async function addData(
+    payload: Array<{
+      PK: string;
+      SK: string;
+      details: Record<string, any>;
+    }>,
+  ) {
+    setUpdating(true);
+    try {
+      await api.post(API_ROOT, payload, {
+        headers: {
+          Authorization: await getAuthToken(),
+        },
+      });
+      toast.success("Data addition successful");
+      return true;
+    } catch (error) {
+      console.error("Addition failed:", error);
+      toast.error("Addition failed. Please try again.");
+    } finally {
+      setUpdating(false);
+    }
+  }
 
   async function updateData(
     payload: Array<{
@@ -53,5 +77,5 @@ export function useUpdate() {
     }
   }
 
-  return { updateData, updating, deleteData, deleting };
+  return { updateData, addData, updating, deleteData, deleting };
 }

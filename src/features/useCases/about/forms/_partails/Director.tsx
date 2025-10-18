@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useAboutContext } from "@/features/domain/context/about-context";
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
@@ -12,10 +12,12 @@ import { toast } from "sonner";
 import ImageUploader from "@/components/ui/image-uploader";
 import { SheetClose } from "@/components/ui/sheet";
 import TextEditor from "@/components/ui/rich-text-editor";
+import { resolveMediaUrl } from "@/lib/media";
+import { cleanupHtmlString } from "@/lib/utils";
 
 const Director = () => {
   const { data, reload, loading } = useAboutContext();
-  const { updateData, updating } = useUpdate();
+  const { updateData, updating } = useMutations();
   const director = data?.team.director;
   const directorKey = director?.key;
 
@@ -76,7 +78,7 @@ const Director = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-3">
       <div className="flex items-center space-x-2 mb-4">
         <Switch
           id="director-preview"
@@ -143,27 +145,29 @@ const Director = () => {
           </div>
         </form>
       ) : (
-        <div className="p-8 flex flex-col items-center">
-          {form.image ? (
-            <img
-              src={form.image}
-              alt={form.name}
-              className="rounded-full w-32 h-32 object-cover mb-4 border"
-            />
-          ) : (
-            <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center mb-4">
-              No Image
+        <div className="p-8 border border-gray-200 rounded-md">
+          <h4 className="text-4xl font-bold text-center">
+            <span className="text-primary">Our</span> Team
+          </h4>
+          <div className="h-0.5 w-20 bg-primary mx-auto mb-10 mt-2" />
+          <div className="flex flex-col justify-center">
+            <div className="size-72 aspect-square rounded-md relative overflow-hidden mx-auto">
+              <img
+                src={resolveMediaUrl(form.image)}
+                className="object-cover object-center"
+                alt=""
+              />
             </div>
-          )}
-          <h2 className="text-xl font-bold mb-2">
-            {form.name || "Director Name"}
-          </h2>
-          <div
-            className="prose max-w-lg text-center"
-            dangerouslySetInnerHTML={{
-              __html: form.content || "<p>No bio provided.</p>",
-            }}
-          />
+            <h3 className="text-xl font-semibold mt-4 text-center">
+              <span className="text-primary">CEO/Director:</span> {form.name}
+            </h3>
+            <div
+              className="markdown"
+              dangerouslySetInnerHTML={{
+                __html: cleanupHtmlString(form.content),
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

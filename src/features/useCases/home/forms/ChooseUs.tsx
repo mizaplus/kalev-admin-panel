@@ -24,7 +24,7 @@ import { Spinner } from "@/components/ui/spinner";
 // Utils
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 
 type ReasonForm = {
   key?: ContentKey;
@@ -65,7 +65,7 @@ const DEFAULT_CHOOSE_US = {
 };
 
 const ChooseUs = () => {
-  const { updating: saving, updateData } = useUpdate();
+  const { updating: saving, updateData } = useMutations();
   const { data, reload, loading } = useHomepageContext();
   const chooseUs = data?.choose_us?.details;
   const chooseUsKey = data?.choose_us?.key;

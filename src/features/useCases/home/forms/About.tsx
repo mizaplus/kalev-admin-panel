@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 // Utils
 import { toast } from "sonner";
 import { resolveMediaUrl } from "@/lib/media";
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 import ImageUploader from "@/components/ui/image-uploader";
 
 const FALLBACK_INTRO = "Nonprofit • You Make a Difference";
@@ -31,7 +31,7 @@ const FALLBACK_CONTENT =
   "Share your mission, impact, and the story behind your organization so supporters understand why your work matters.";
 
 const About = () => {
-  const { updateData } = useUpdate();
+  const { updateData } = useMutations();
   const { data, reload, loading } = useHomepageContext();
   const about = data?.about?.details;
   const aboutKey = data?.about?.key;

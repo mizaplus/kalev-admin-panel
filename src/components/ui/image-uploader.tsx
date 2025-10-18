@@ -57,9 +57,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = (props) => {
       {
         success: (data) => {
           const key = data.path;
+          props.setValue(key);
+
           if (props.edit) {
             props.edit.setOldValue(props.value);
-            props.setValue(key);
           }
           return "File uploaded successfully";
         },
@@ -77,7 +78,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = (props) => {
   function removeFile() {
     toast.promise(
       remove({
-        path: props.value.replace("public/", ""),
+        path: props.value,
       }),
       {
         success: () => {

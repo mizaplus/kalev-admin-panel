@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 
 import {
   Sheet,
@@ -36,7 +36,7 @@ const AboutHero = () => {
     image: hero?.image || "",
   });
   const [oldImage, setOldImage] = useState("");
-  const { updateData, updating: saving } = useUpdate();
+  const { updateData, updating: saving } = useMutations();
 
   useEffect(() => {
     setForm({

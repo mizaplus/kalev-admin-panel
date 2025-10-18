@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAboutContext } from "@/features/domain/context/about-context";
-import { useUpdate } from "@/lib/useUpdate";
+import { useMutations } from "@/lib/useMutations";
 import {
   Sheet,
   SheetTrigger,
@@ -23,7 +23,7 @@ import { cleanupHtmlString } from "@/lib/utils";
 
 const MissionVision = () => {
   const { data, reload, loading } = useAboutContext();
-  const { updateData, updating } = useUpdate();
+  const { updateData, updating } = useMutations();
 
   const mission = data?.info?.mission_vision;
   const objectives = data?.info?.objectives;
