@@ -11,7 +11,8 @@ const AuthHeader: React.FC<{ title: string }> = ({ title }) => (
   </div>
 );
 
-const isLocal = window.location.hostname === "localhost";
+const isLocal = import.meta.env.DEV;
+console.log({ env: import.meta.env });
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

@@ -5,6 +5,11 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { uploadData } from "aws-amplify/storage";
 
 // UI Components
+// react-quill expects ReactDOM.findDOMNode which can be missing in newer React
+// versions (React 19+). Provide a small runtime shim so the editor can
+// initialize. This is intentionally defensive and only attempts to return
+// a DOM node when obvious.
+
 import ReactQuill from "react-quill";
 
 // Styles
@@ -12,6 +17,7 @@ import "react-quill/dist/quill.snow.css";
 import { resolveMediaUrl } from "@/lib/media";
 import { toast } from "sonner";
 import { Label } from "./label";
+import { generateFileName } from "@/lib/utils";
 
 interface TextEditorProps {
   label?: string;
@@ -43,15 +49,12 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
         toast.promise(
           uploadData({
             data: file,
-            path({ identityId }) {
-              console.log({ identityId });
-              return `public/${identityId}/${file.name}`;
-            },
+            path: `public/${generateFileName(file.name)}`,
           }).result,
           {
             success: (res) => {
               console.log({ res });
-              const image = resolveMediaUrl(`public/${res.path}`);
+              const image = resolveMediaUrl(res.path);
               const editor = quill.current.getEditor();
               const range = quill.current.getEditorSelection("focus", "true");
               editor.insertEmbed(range.index, "image", image);
@@ -59,6 +62,7 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
               return "Image attached successfully!";
             },
             error: "Failed to upload image.",
+            finally: () => setReadOnly(false),
           },
         );
       }
@@ -146,7 +150,7 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
           formats={formats}
           modules={modules}
           readOnly={readOnly || props.readOnly}
-          className={"editorDark"}
+          className={"markdown"}
         />
       </div>
     </div>

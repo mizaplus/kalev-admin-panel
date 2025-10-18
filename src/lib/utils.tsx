@@ -34,3 +34,8 @@ export const generateFileName = (name: string) => {
   const sanitized = name.replace(/\s+/g, "_").toLowerCase();
   return `kelev-${id}-${sanitized}`;
 };
+
+export function cleanupHtmlString(htmlString: string): string {
+  // Remove <p><br /></p> patterns
+  return htmlString.replace(/<p><br\s*\/?><\/p>/g, "");
+}

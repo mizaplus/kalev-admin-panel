@@ -1,5 +1,5 @@
 import { fetchHomePage, type HomePageResponse } from "@/lib/api/homepage";
-import { createContext, use, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface HomepageContextProps {
   data: HomePageResponse | null;
@@ -14,7 +14,7 @@ export const HomepageContext = createContext<HomepageContextProps>({
 });
 
 export const useHomepageContext = () => {
-  const context = use(HomepageContext);
+  const context = useContext(HomepageContext);
   if (!context) {
     throw new Error(
       "useHomepageContext must be used within a HomepageProvider",

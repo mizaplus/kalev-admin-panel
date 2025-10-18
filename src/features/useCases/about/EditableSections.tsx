@@ -10,6 +10,7 @@ import { FaRegSmile, FaInfoCircle, FaRegThumbsUp } from "react-icons/fa";
 import AboutHero from "./forms/Hero";
 import Story from "./forms/Story";
 import MissionVision from "./forms/MissionVision";
+import Team from "./forms/Teams";
 
 const iconProps = {
   size: 36,
@@ -75,6 +76,7 @@ const AboutSections = () => {
               {i === 0 && <AboutHero />}
               {i === 1 && <Story />}
               {i === 2 && <MissionVision />}
+              {i === 3 && <Team />}
             </CardContent>
           </Card>
         ))}

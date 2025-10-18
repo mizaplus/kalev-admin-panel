@@ -18,6 +18,8 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 import { GiTrophy, GiFist } from "react-icons/gi";
+import TextEditor from "@/components/ui/rich-text-editor";
+import { cleanupHtmlString } from "@/lib/utils";
 
 const MissionVision = () => {
   const { data, reload, loading } = useAboutContext();
@@ -152,17 +154,14 @@ const MissionVision = () => {
                 </FieldContent>
               </Field>
               <Field>
-                <FieldLabel htmlFor="vision">Objectives</FieldLabel>
-                <FieldContent>
-                  <Textarea
-                    id="objectives"
-                    name="objectives"
-                    value={form.objectives}
-                    onChange={handleChange}
-                    disabled={loading || updating}
-                    required
-                  />
-                </FieldContent>
+                <TextEditor
+                  label="Story"
+                  value={form.objectives}
+                  setValue={(val) =>
+                    setForm((prev) => ({ ...prev, objectives: val }))
+                  }
+                  readOnly={updating || loading}
+                />
               </Field>
 
               <div>
@@ -216,7 +215,9 @@ const MissionVision = () => {
               <hr className="border-gray-200" />
               <div
                 className="markdown mt-10"
-                dangerouslySetInnerHTML={{ __html: form.objectives }}
+                dangerouslySetInnerHTML={{
+                  __html: cleanupHtmlString(form.objectives),
+                }}
               />
             </div>
           )}

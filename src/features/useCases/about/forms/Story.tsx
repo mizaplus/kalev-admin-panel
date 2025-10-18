@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
+import TextEditor from "@/components/ui/rich-text-editor";
 import {
   Sheet,
   SheetClose,
@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/sheet";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { useAboutContext } from "@/features/domain/context/about-context";
 import { useUpdate } from "@/lib/useUpdate";
+import { cleanupHtmlString } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -23,17 +23,9 @@ const Story = () => {
   const { updating, updateData } = useUpdate();
   const { data, reload, loading } = useAboutContext();
   const [form, setForm] = useState({
-    title: data?.story.title || "",
     content: data?.story.content || "",
   });
   const [preview, setPreview] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +35,7 @@ const Story = () => {
       return;
     }
 
-    if (!form.title || !form.content) {
+    if (!form.content) {
       toast.error("Please fill in all fields.");
       return;
     }
@@ -52,7 +44,6 @@ const Story = () => {
       {
         ...data?.story.key,
         details: {
-          title: form.title,
           content: form.content,
         },
       },
@@ -94,42 +85,14 @@ const Story = () => {
           {!preview ? (
             <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit}>
               <Field>
-                <FieldLabel htmlFor="about-hero-headline">Headline</FieldLabel>
-                <FieldContent>
-                  <Input
-                    id="about-hero-headline"
-                    name="title"
-                    type="text"
-                    placeholder="Enter headline"
-                    value={form.title}
-                    onChange={handleChange}
-                    disabled={updating || loading}
-                    required
-                  />
-                </FieldContent>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="about-hero-headline">Story</FieldLabel>
-                <FieldContent>
-                  {/* <TextEditor
+                <TextEditor
                   label="Story"
                   value={form.content}
                   setValue={(val) =>
                     setForm((prev) => ({ ...prev, content: val }))
                   }
                   readOnly={updating || loading}
-                /> */}
-                  <Textarea
-                    id="about-hero-story"
-                    name="content"
-                    placeholder="Enter story"
-                    value={form.content}
-                    onChange={handleChange}
-                    disabled={updating || loading}
-                    required
-                    className="h-[600px]"
-                  />
-                </FieldContent>
+                />
               </Field>
               <div className="flex items-center gap-5">
                 <Button
@@ -146,11 +109,12 @@ const Story = () => {
               </div>
             </form>
           ) : (
-            <div className="markdown p-5 bg-gray-200 mt-4 rounded-sm ml-3">
-              <h1 className="text-3xl mb-5 font-medium">{form.title}</h1>
+            <div className="markdown p-5 bg-gray-100 mt-4 rounded-sm ml-3">
               <div
                 className="markdown"
-                dangerouslySetInnerHTML={{ __html: form.content }}
+                dangerouslySetInnerHTML={{
+                  __html: cleanupHtmlString(form.content),
+                }}
               />
             </div>
           )}

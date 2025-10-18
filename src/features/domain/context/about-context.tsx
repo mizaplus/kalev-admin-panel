@@ -1,4 +1,4 @@
-import { createContext, use, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { AboutPageData } from "../types/about-types";
 import api from "@/lib/api/main";
 import { toast } from "sonner";
@@ -17,7 +17,7 @@ export const AboutContext = createContext<AboutContextProps>({
 });
 
 export const useAboutContext = () => {
-  const context = use(AboutContext);
+  const context = useContext(AboutContext);
   if (!context) {
     throw new Error("useAboutContext must be used within an AboutProvider");
   }
