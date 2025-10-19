@@ -8,7 +8,6 @@ import {
   Map,
   MessageSquare,
   Plug,
-  ShoppingBag,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -45,7 +44,6 @@ const sections: NavSection[] = [
       { label: "About Us", icon: Users, to: "/about" },
       { label: "Our Programs", icon: Sparkles, to: "/programs" },
       { label: "Get Involved", icon: MessageSquare, to: "/get-involved" },
-      { label: "Donate", icon: ShoppingBag, to: "/donate" },
       { label: "Contact Us", icon: Map, to: "/contact" },
     ],
   },

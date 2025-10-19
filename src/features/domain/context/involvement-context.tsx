@@ -3,10 +3,10 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import React, { useCallback, useContext, useEffect, useMemo } from "react";
 
 // Utils
-import { loadInvolvement } from "@/store";
 
 // Types
 import type { GetInvolvedPageData } from "@/store/involvement/types";
+import { loadInvolvement } from "@/store/involvement/actions";
 
 interface InvolvementContextValue {
   data: GetInvolvedPageData | null;
