@@ -66,7 +66,7 @@ const SignOut = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <IoLogInOutline className="size-10" />
+        <IoLogInOutline className="size-6 cursor-pointer" />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
