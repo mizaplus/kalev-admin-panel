@@ -11,6 +11,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "@/store/index";
 
 Amplify.configure(config);
+const _config = Amplify.getConfig();
+console.log("Amplify Config:", _config);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

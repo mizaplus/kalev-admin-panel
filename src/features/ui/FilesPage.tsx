@@ -1,3 +1,5 @@
+// import Browser from "../useCases/files/storage-browser";
+
 export default function FilesPage() {
   return (
     <section className="space-y-3">
@@ -6,6 +8,7 @@ export default function FilesPage() {
         Manage media assets and documents here once the storage hooks are wired
         up.
       </p>
+      {/* <Browser /> */}
     </section>
   );
 }

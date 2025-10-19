@@ -1,17 +1,15 @@
 import type { SVGProps } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 
+import { cn } from "@/lib/utils";
 import {
   AppWindow,
-  FileText,
   LayoutDashboard,
   Map,
   MessageSquare,
-  Plug,
   Sparkles,
   Users,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 type NavItem = {
   label: string;
@@ -47,13 +45,13 @@ const sections: NavSection[] = [
       { label: "Contact Us", icon: Map, to: "/contact" },
     ],
   },
-  {
-    label: "Admin",
-    items: [
-      { label: "Files", icon: FileText, to: "/files" },
-      { label: "Back Ups", icon: Plug, to: "/backups" },
-    ],
-  },
+  // {
+  //   label: "Admin",
+  //   items: [
+  //     { label: "Files", icon: FileText, to: "/files" },
+  //     { label: "Back Ups", icon: Plug, to: "/backups" },
+  //   ],
+  // },
 ];
 
 export function Sidebar() {
