@@ -17,6 +17,7 @@ import aboutReducer from "./about/slice";
 import programsReducer from "./programs/slice";
 import involvementReducer from "./involvement/slice";
 import contactReducer from "./contact/slice";
+import dashboardReducer from "./dashboard/slice";
 
 const rootReducer = combineReducers({
   homepage: homepageReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   programs: programsReducer,
   involvement: involvementReducer,
   contact: contactReducer,
+  dashboard: dashboardReducer,
 });
 
 const persistConfig = {

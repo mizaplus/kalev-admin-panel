@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AppLayout } from "@/components/layout/AppLayout";
 import BackupsPage from "@/pages/BackupsPage";
-import DashboardPage from "@/pages/DashboardPage";
+import DashboardPage from "@/features/ui/DashboardPage";
 import NotFoundPage from "@/features/ui/NotFoundPage";
 
 // Pages
