@@ -30,7 +30,7 @@ const WebsiteStatus = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="w-full rounded-md border h-[500px]">
+        <ScrollArea className="w-full rounded-md border h-[800px]">
           <img src={resolveMediaUrl(page.screenshot)} alt="" />
         </ScrollArea>
       </CardContent>

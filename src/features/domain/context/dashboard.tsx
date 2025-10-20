@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { loadDashboard } from "@/store/dashboard/actions";
 import type { DashboardData } from "../types/dashboard";
+import { Spinner } from "@/components/ui/spinner";
 
 interface DashboardContextProps {
   data: DashboardData | null;
@@ -45,6 +46,11 @@ const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <DashboardContext.Provider value={{ data, loading, reload }}>
       {children}
+      {loading && !data && (
+        <div className="h-[600px] flex items-center justify-center">
+          <Spinner />{" "}
+        </div>
+      )}
     </DashboardContext.Provider>
   );
 };
